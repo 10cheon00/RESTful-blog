@@ -1,5 +1,10 @@
 # files
 goorm.manifest
+secret.json
+
+# file extensions
+
 
 # folders
 venv/
+__pycache__
