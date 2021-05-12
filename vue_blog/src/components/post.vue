@@ -1,8 +1,9 @@
 <template>
     <div>
-        {{ title }} | {{ create_at }}
-        <br>
-        {{ content }}
+        {{ title }}<br>
+        {{ create_at }}<br>
+        {{ content }}<br>
+        <button v-on:click="$emit('deletePost', 'this')">Delete</button>
     </div>
 </template>
 <script>
@@ -14,7 +15,7 @@
                 required: true,
             },
             create_at: {
-                type: Date,
+                type: String,
                 required: true,
             },
             content: {
@@ -22,19 +23,12 @@
                 required: true,
             },
         },
+        methods: {
+        }
     }
 </script>
 <style scoped>
-    div {
-        display: flex;
-        min-height: 100px;
-        padding: 10px;
-        background-color: beige;
-        border: none;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-        border-radius: 5px;
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        font-size: 1em;
-        margin: 5px;
+    div{
+        border: 1px;
     }
 </style>
