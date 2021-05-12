@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework import viewsets
 
 from blog.models import Post
 from blog.serializers import PostSerializer
@@ -14,6 +14,6 @@ APIView가 저수준이므로 복잡한 구현 시에 사용하라고 한다.
 """
 
 
-class PostListCreateAPIView(ListCreateAPIView):
+class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
