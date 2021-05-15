@@ -5,7 +5,7 @@ ALLOWED_HOSTS += ['*']
 
 INSTALLED_APPS += [
     'rest_framework',
-    'blog',
+    'backend',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

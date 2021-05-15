@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from blog.models import Post
-from blog.serializers import PostSerializer
+from backend.models import Post
+from backend.serializers import PostSerializer
 
 
 """

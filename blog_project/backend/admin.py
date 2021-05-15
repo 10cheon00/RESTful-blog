@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import Post
+from backend.models import Post
 
 
 admin.site.register(Post)
