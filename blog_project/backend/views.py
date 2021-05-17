@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from backend.models import Post
-from backend.serializers import PostSerializer
+from backend.models import Article
+from backend.serializers import ArticleSerializer
 
 
 """
@@ -14,6 +14,6 @@ APIView가 저수준이므로 복잡한 구현 시에 사용하라고 한다.
 """
 
 
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
