@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from backend.views import PostViewSet
+from backend.views import ArticleViewSet
 
 router = routers.DefaultRouter()
-router.register(r'post', PostViewSet)
+router.register(r'article', ArticleViewSet)
 
 
 urlpatterns = [

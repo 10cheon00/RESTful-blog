@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from backend.models import Post
+from backend.models import Article
 
 
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Post
-        fields = ['url', 'title', 'create_at', 'content']
+        model = Article
+        fields = ['url', 'id', 'title', 'create_at', 'content']

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from backend.models import Post
+from backend.models import Article
 
 
-admin.site.register(Post)
+admin.site.register(Article)
