@@ -5,13 +5,14 @@ import BlogArticle from '../components/BlogArticle.vue';
 const routes = [
     {
         path: '/',
-        name: 'Blog',
+        name: 'Home',
         component: Blog
     },
     {
-        path: '/:id',
-        name: 'BlogArticle',
-        component: BlogArticle,
+        path: '/:articleId',
+        name: 'ArticleDetail',
+        props: true,  // 이 옵션으로 선택한 article의 id가 Blog의 props에 저장된다.
+        component: Blog,
     },
 ];
 

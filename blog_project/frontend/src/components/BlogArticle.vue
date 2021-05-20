@@ -1,10 +1,13 @@
 <template>
-    <div>
-        <router-link to="../">Back to Home</router-link>
-        <br>
-        {{ article.title }} | {{ article.create_at }}
-        <hr>
-        {{ article.content }}
+    <div id="blog-article-detail">
+        <div v-if="isLoadible">
+            <router-link to="/">Back to Home</router-link>
+            <br>
+            {{ article.title }} | {{ article.create_at }}
+            <hr>
+            {{ article.content }}
+
+        </div>
     </div>
 </template>
 
@@ -12,24 +15,14 @@
     import axios from 'axios';
     
     export default {
-        data(){
-            return {
-                article: Object,
-            }  
+        name: 'blog-article',
+        props:{
+            article: Object,
         },
-        methods: {
-            getArticle(){
-                axios.get(
-                    'http://rest-blog.run.goorm.io/api/article/'
-                ).then(response => {
-                    this.article = response.data.find(
-                        x => x.id == this.$route.params.id
-                    )
-                })
+        computed:{
+            isLoadible(){
+                return (this.article !== undefined)?true:false;
             }
         },
-        created(){
-            this.getArticle();
-        }
     }
 </script>
