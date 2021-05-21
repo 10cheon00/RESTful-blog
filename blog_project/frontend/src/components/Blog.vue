@@ -47,9 +47,7 @@
                 }
             },
             loadArticleList(){
-                axios.get(
-                    'http://rest-blog.run.goorm.io/api/article'
-                ).then(response => {
+                axios.get(this.articleAPIUrl()).then(response => {
                     this.articleList = response.data;
                 });
             },
@@ -59,7 +57,7 @@
             loadArticleById(){
                 if(!this.isArticleIdUndefined()){
                     axios.get(
-                        'http://rest-blog.run.goorm.io/api/article/' + this.articleId
+                        this.articleDetailUrl(this.articleId)
                     ).then(response => {
                         this.article = response.data;
                     }).catch({
