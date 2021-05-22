@@ -10,10 +10,12 @@
 <script>
     import axios from 'axios';
     
+    import articleUrlMixin from '/src/mixins/articleUrlMixin';
     import BlogArticle from '/src/components/BlogArticle.vue';
     import BlogArticleList from '/src/components/BlogArticleList.vue';
     
     export default {
+        mixins: [articleUrlMixin],
         data() {
             return {
                 article: undefined,

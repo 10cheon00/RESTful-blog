@@ -1,6 +1,6 @@
 const api_url = 'http://rest-blog.run.goorm.io/api/'
 
-const backendUrlMixin = {
+export default {
     data() {
         return {
             
@@ -16,4 +16,3 @@ const backendUrlMixin = {
     }
 };
 
-export default backendUrlMixin;
