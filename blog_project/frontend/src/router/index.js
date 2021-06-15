@@ -20,7 +20,7 @@ const routes = [
         component: Blog,
     },
     {
-        path: '/:patchMatch(.*)*', 
+        path: '/:pathMatch(.*)*', 
         redirect: '/NotFound'
     }
 ];
