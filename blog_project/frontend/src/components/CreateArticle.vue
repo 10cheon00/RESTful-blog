@@ -25,10 +25,9 @@ export default{
     },
     methods: {
         createArticle(){
-            axios.post(
+            axios.create(
                 this.ArticleListCreateUrl(), {
                     title: this.title,
-                    created_at: null,
                     content: this.content,
                 }
             ).then(response => {
