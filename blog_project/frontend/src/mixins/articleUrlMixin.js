@@ -7,11 +7,14 @@ export default {
         }
     },
     methods: {
-        articleAPIUrl(){
+        ArticleAPIUrl(){
             return api_url + 'article/';
         },
-        articleDetailUrl(articleId){
-            return this.articleAPIUrl() + articleId;
+        ArticleListCreateUrl(){
+            return this.ArticleAPIUrl();
+        },
+        ArticleRetrieveUpdateDestroyUrl(articleId){
+            return this.ArticleAPIUrl() + articleId;
         },
     }
 };
