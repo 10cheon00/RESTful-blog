@@ -1,78 +1,49 @@
 <template>
-<div id="blog">
-    <h3>
-        My blog!
-    </h3>
-    <blog-article-list :articleList="articleList"/>
-    <blog-article :article="article"/>
+<div>
+    <div id="blog-create-article">
+        <router-link :to="{name: 'CreateArticle'}">
+            Create Article
+        </router-link>
+    </div>
+    <hr>
+    <div id="blog-article-list">
+        <div v-for="article in articleList" :key="article.id">
+            <router-link :to="{
+                              name: 'ArticleDetail',
+                              params: {articleId: `${article.id}`}}
+                              ">
+                {{ article.title }}
+            </router-link>
+        </div>
+    </div>
 </div>
 </template>
 <script>
     import axios from 'axios';
     
     import articleUrlMixin from '/src/mixins/articleUrlMixin';
-    import BlogArticle from '/src/components/BlogArticle.vue';
-    import BlogArticleList from '/src/components/BlogArticleList.vue';
     
     export default {
         mixins: [articleUrlMixin],
         data() {
             return {
-                article: undefined,
                 articleList: [],
             }
         },
         props:{
-            articleId: String,
         },
         components:{
-            BlogArticle,
-            BlogArticleList,
         },
         mounted(){
-            this.loadArticleListIfArticleIdGiven();
-            this.loadArticleById();
+            axios.get(this.ArticleListCreateUrl()).then(response => {
+                this.articleList = response.data;
+            }).catch(error => {
+                console.log(error);
+            })
         },
         watch: {
-            articleId(){
-                this.loadArticleListIfArticleIdGiven();
-                this.loadArticleById();
-            }
         },
         methods: {
-            loadArticleListIfArticleIdGiven(){
-                if(this.isArticleIdUndefined()){
-                    this.loadArticleList();
-                }
-                else{
-                    this.clearArticleList();
-                }
-            },
-            loadArticleList(){
-                axios.get(this.articleAPIUrl()).then(response => {
-                    this.articleList = response.data;
-                });
-            },
-            clearArticleList(){
-                this.articleList = [];
-            },
-            loadArticleById(){
-                if(!this.isArticleIdUndefined()){
-                    axios.get(
-                        this.articleDetailUrl(this.articleId)
-                    ).then(response => {
-                        this.article = response.data;
-                    }).catch({
-                        // Redirect 404 page.
-                    })
-                }
-                else{
-                    this.article = undefined;
-                }
-            },
-            isArticleIdUndefined(){
-                return this.articleId == undefined;
-            }
         }
     }
 </script>
