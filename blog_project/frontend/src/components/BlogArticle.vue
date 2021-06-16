@@ -5,6 +5,12 @@
         {{ article.title }} | {{ article.create_at }}
         <br>
         {{ article.content }}
+        <hr>
+        <div>
+            <button v-on:click="DeleteArticle">
+                Delete!    
+            </button>
+        </div>
     </div>
 </template>
 
@@ -36,6 +42,24 @@
             }).catch(error => {
                 console.log(error);
             })
+        },
+        methods: {
+            DeleteArticle(){
+                axios.delete(
+                    this.ArticleRetrieveUpdateDestroyUrl(this.articleId)
+                ).then(response => {
+                    this.$router.push(
+                        {name: 'ArticleList'}
+                    );
+                }).catch(error => {
+                    console.log(error); 
+                });
+            }
         }
     }
 </script>
+<style>
+    button{
+        background-color:#ffcccc;
+    }
+</style>
