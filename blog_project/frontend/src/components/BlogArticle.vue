@@ -35,8 +35,13 @@
             }
         },
         mounted(){
+            const token = localStorage.getItem('jwt');
             axios.get(
-                this.ArticleRetrieveUpdateDestroyUrl(this.articleId)
+                this.ArticleRetrieveUpdateDestroyUrl(this.articleId),{
+                    headers: {
+                        "Authorization": `JWT ${token}`
+                    }
+                }
             ).then(response => {
                 this.article = response.data;
             }).catch(error => {

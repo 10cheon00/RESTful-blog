@@ -9,6 +9,9 @@
         <button v-on:click="createArticle">
             저장
         </button>
+        <div>
+            <p>{{ errorMsg }}</p>
+        </div>
     </div>
 </template>
 <script>
@@ -21,11 +24,16 @@ export default{
         return{
             title: "",
             content: "",
+            errorMsg: "",
         }
     },
     methods: {
         createArticle(){
-            axios.create(
+            if(this.IsEmptyArticle()){
+                this.ShowErrorMsg()
+                return
+            }
+            axios.post(
                 this.ArticleListCreateUrl(), {
                     title: this.title,
                     content: this.content,
@@ -39,6 +47,12 @@ export default{
                     console.log('error -> ' + error)
                 }
             )
+        },
+        IsEmptyArticle(){
+            return this.title.length + this.content.length == 0
+        },
+        ShowErrorMsg(){
+            this.errorMsg = "내용을 입력해주세요!"
         }
     }
 }

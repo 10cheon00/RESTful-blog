@@ -7,5 +7,6 @@ secret.json
 
 # folders
 venv/
+httpVenv/
 __pycache__
 migrations

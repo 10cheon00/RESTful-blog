@@ -1,5 +1,6 @@
 <template>
     <div id="blog">
+        <app-nav/>
         <h3>
             My blog!
         </h3>
@@ -9,6 +10,12 @@
 </template>
 
 <script>
+import AppNav from '/src/components/AppNav'
+export default{
+    components: {
+        AppNav
+    },
+}
 </script>
     
 <style>
