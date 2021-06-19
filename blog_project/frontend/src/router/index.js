@@ -3,6 +3,8 @@ import Blog from '/src/components/Blog.vue';
 import BlogArticle from '/src/components/BlogArticle.vue';
 import CreateArticle from '/src/components/CreateArticle.vue';
 import NotFound from '/src/components/NotFound.vue';
+import Login from '/src/components/Login';
+import SignUp from '/src/components/SignUp';
 
 
 function CastArticleIdStringToNumber(route){
@@ -13,9 +15,22 @@ function CastArticleIdStringToNumber(route){
 
 const routes = [
     {
+        path: '/signup',
+        name: 'SignUp',
+        component: SignUp,
+        meta: { unauthorized: true}
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        meta: { unauthorized: true}
+    },
+    {
         path: '/article',
         name: 'ArticleList',
-        component: Blog
+        component: Blog,
+        meta: { unauthorized: true}
     },
     {
         path: '/article/:articleId(\\d+)',  // regex를 이용해 오직 숫자만 걸러낸다.

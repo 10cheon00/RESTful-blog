@@ -8,7 +8,7 @@ export default {
     },
     methods: {
         ArticleAPIUrl(){
-            return api_url + 'article/';
+            return api_url + 'articles/';
         },
         ArticleListCreateUrl(){
             return this.ArticleAPIUrl();

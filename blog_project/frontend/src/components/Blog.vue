@@ -35,7 +35,14 @@
         components:{
         },
         mounted(){
-            axios.get(this.ArticleListCreateUrl()).then(response => {
+            const token = localStorage.getItem('jwt');
+            axios.get(
+                this.ArticleListCreateUrl(),{
+                    headers: {
+                        "Authorization": `JWT ${token}`
+                    }
+                }
+            ).then(response => {
                 this.articleList = response.data;
             }).catch(error => {
                 console.log(error);
