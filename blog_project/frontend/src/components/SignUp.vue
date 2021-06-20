@@ -4,7 +4,12 @@
         SignUp    
     </h1>
     <input type="text" v-model="credentials.username">
+    <input type="text" v-model="credentials.nickname">
     <input type="password" v-model="credentials.password">
+    <input type="password" v-model="credentials.password_confirmation">
+    <p>
+        {{ error_msg }}
+    </p>
     <button v-on:click="SignUp">
         Sign Up
     </button>
@@ -19,23 +24,36 @@
             return{
                 credentials:{
                     username: null,
+                    nickname: null,
                     password: null,
-                    passwordConfirmation: null,
-                }
+                    password_confirmation: null,
+                },
+                error_msg: '',
             }
         },
         methods: {
             SignUp(){
+                if(this.IsPasswordEquals() == false){
+                    this.error_msg = '비밀번호가 같지 않습니다!'
+                    return
+                }
+                    
                 axios.post(
-                    'http://rest-blog.run.goorm.io/api/profiles/', {
-                        username: this.credentials.username,
-                        password: this.credentials.password,
-                    }
+                    'http://rest-blog.run.goorm.io/api/profiles/signup/', 
+                    this.credentials
                 ).then(response => {
-                    this.$router.push({name: 'Login'})
+                    if(response.data.error){
+                        console.log(response.data.error)
+                    }
+                    else{
+                        this.$router.push({name: 'Login'})
+                    }
                 }).catch(error => {
                     console.log("failed")
                 })
+            },
+            IsPasswordEquals(){
+                return this.credentials.password == this.credentials.password_confirmation
             }
         }
     }
