@@ -46,7 +46,7 @@
                         console.log(response.data.error)
                     }
                     else{
-                        this.$router.push({name: 'Login'})
+                        this.$router.push({name: 'SignIn'})
                     }
                 }).catch(error => {
                     console.log("failed")

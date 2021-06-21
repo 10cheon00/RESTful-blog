@@ -23,7 +23,3 @@ class SignUpAPIView(APIView):
             serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class LoginAPIView(APIView):
-    pass

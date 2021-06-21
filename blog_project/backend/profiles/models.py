@@ -9,3 +9,6 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['nickname']
+
+    def __str__(self):
+        return self.user.username

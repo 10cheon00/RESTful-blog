@@ -35,11 +35,11 @@
         components:{
         },
         mounted(){
-            const token = localStorage.getItem('jwt');
+            const token = localStorage.getItem('jwt_access');
             axios.get(
                 this.ArticleListCreateUrl(),{
                     headers: {
-                        "Authorization": `JWT ${token}`
+                        Authorization: `Bearer ${token}`
                     }
                 }
             ).then(response => {
