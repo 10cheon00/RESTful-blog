@@ -3,7 +3,7 @@ import Blog from '/src/components/Blog.vue';
 import BlogArticle from '/src/components/BlogArticle.vue';
 import CreateArticle from '/src/components/CreateArticle.vue';
 import NotFound from '/src/components/NotFound.vue';
-import Login from '/src/components/Login';
+import SignIn from '/src/components/SignIn';
 import SignUp from '/src/components/SignUp';
 
 
@@ -21,9 +21,9 @@ const routes = [
         meta: { unauthorized: true}
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login,
+        path: '/signin',
+        name: 'SignIn',
+        component: SignIn,
         meta: { unauthorized: true}
     },
     {
