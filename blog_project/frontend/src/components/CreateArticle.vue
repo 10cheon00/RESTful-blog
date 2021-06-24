@@ -1,10 +1,10 @@
 <template>
     <div id="input">
         <div>
-            <input v-model="title" placeholder="제목">
+            <input v-model="article.title" placeholder="제목">
         </div>
         <div>
-            <textarea v-model="content" placeholder="내용"/>
+            <textarea v-model="article.content" placeholder="내용"/>
         </div>
         <button v-on:click="createArticle">
             저장
@@ -16,14 +16,18 @@
 </template>
 <script>
 import axios from 'axios';
+    
 import articleUrlMixin from '/src/mixins/articleUrlMixin';
+import tokenMixin from '/src/mixins/tokenMixin';
 
 export default{
-    mixins: [articleUrlMixin],
+    mixins: [articleUrlMixin, tokenMixin],
     data(){
         return{
-            title: "",
-            content: "",
+            article: {
+                title: "",
+                content: "",
+            },
             errorMsg: "",
         }
     },
@@ -33,23 +37,30 @@ export default{
                 this.ShowErrorMsg()
                 return
             }
-            axios.post(
-                this.ArticleListCreateUrl(), {
-                    title: this.title,
-                    content: this.content,
+            // 생성하려고 하면 인증이 안된다고 뜬다.. 왜일까
+            const token = this.GetAccessTokenFromLocalStorage()
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+            }
+            axios({
+                method: 'post', //you can set what request you want to be
+                url: this.ArticleAPIUrl(),
+                data: this.article,
+                headers: {
+                    Authorization: 'Bearer ' + token
                 }
-            ).then(response => {
-                this.$router.push(
-                    {name: 'ArticleList'}
-                );
+            }).then(response => {
+                this.$router.push({name: 'ArticleList'});
             }).catch(
-                function(error){
-                    console.log('error -> ' + error)
+                error => {
+                    console.log(error.response)
                 }
             )
         },
         IsEmptyArticle(){
-            return this.title.length + this.content.length == 0
+            return this.article.title.length + this.article.content.length == 0
         },
         ShowErrorMsg(){
             this.errorMsg = "내용을 입력해주세요!"

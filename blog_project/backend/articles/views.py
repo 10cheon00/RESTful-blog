@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from backend.articles.models import Article
 from backend.articles.serializers import ArticleSerializer
@@ -19,5 +19,5 @@ APIView가 저수준이므로 복잡한 구현 시에 사용하라고 한다.
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    authentication_class = [TokenAuthentication]
-    permission_class = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]

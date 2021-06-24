@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from backend.profiles.models import Profile
 
@@ -18,6 +19,10 @@ class ProfileSerializer(serializers.Serializer):
         username = self.validated_data.get('username')
 
         # TODO check already exists username.
+        # 참고
+        # https://eunjin3786.tistory.com/270
+        if User.objects.filter(username=username):
+            pass
 
         user = User.objects.create_user(
             username=username,
