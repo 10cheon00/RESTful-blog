@@ -40,10 +40,12 @@
                     this.error_msg = '비밀번호가 같지 않습니다!'
                     return
                 }
-                axios.post(
-                    this.profileSignUpUrl, 
-                    this.profile
-                ).then(response => {
+
+                axios({
+                    method: 'post',
+                    url: this.profileSignUpUrl,
+                    data: this.profile
+                }).then(response => {
                     this.$router.push({name: 'SignIn'})
                 }).catch(error => {
                     console.log(error.response)

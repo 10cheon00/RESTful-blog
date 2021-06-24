@@ -35,9 +35,10 @@
         components:{
         },
         mounted(){
-            axios.get(
-                this.ArticleAPIUrl(),
-            ).then(response => {
+            axios({
+                method: 'get',
+                url: this.ArticleAPIUrl()
+            }).then(response => {
                 this.articleList = response.data;
             }).catch(error => {
                 console.log(error);

@@ -9,18 +9,20 @@ export default {
             tokenAPIUrl: apiUrl + 'profiles/',
             tokenVerifyUrl: apiUrl + 'profiles/verify/',
             profileSignUpUrl: apiUrl + 'profiles/signup/',
-            accessTokenStorageKey: 'bearer_token_access',
-            refreshTokenStorageKey: 'bearer_token_refresh'
+            accessTokenStorageKey: 'bearer_access_token',
+            refreshTokenStorageKey: 'bearer_refresh_token'
         }
     },
     methods: {
         ObtainToken(profile, successHandler, errorHandler){
-            axios.post(
-                this.tokenAPIUrl, {
+            axios({
+                method: 'post',
+                url: this.tokenAPIUrl,
+                data: {
                     username: profile.username,
                     password: profile.password
                 }
-            ).then(response => {
+            }).then(response => {
                 successHandler(response)
             }).catch(error => {
                 errorHandler(error)

@@ -15,11 +15,13 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import articleUrlMixin from '/src/mixins/articleUrlMixin';
+    import axios from 'axios'
+
+    import articleUrlMixin from '/src/mixins/articleUrlMixin'
+    import tokenMixin from '/src/mixins/tokenMixin'
 
     export default {
-        mixins:[articleUrlMixin],
+        mixins:[articleUrlMixin, tokenMixin],
         name: 'blog-article',
         props:{
             articleId: Number,
@@ -35,9 +37,10 @@
             }
         },
         mounted(){
-            axios.get(
-                this.ArticleRetrieveUpdateDeleteUrl(this.articleId),
-            ).then(response => {
+            axios({
+                method: 'get',
+                url: this.ArticleRetrieveUpdateDeleteUrl(this.articleId),
+            }).then(response => {
                 this.article = response.data;
             }).catch(error => {
                 console.log(error);
@@ -45,14 +48,14 @@
         },
         methods: {
             DeleteArticle(){
-                const token = localStorage.getItem('bearer_token_access')
-                axios.delete(
-                    this.ArticleRetrieveUpdateDeleteUrl(this.articleId),{
-                        headers: {
-                            Authorization: `bBearer ${token}`
-                        }
+                const token = this.GetAccessTokenFromLocalStorage()
+                axios({
+                    method: 'delete',
+                    url: this.ArticleRetrieveUpdateDeleteUrl(this.articleId),
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
-                ).then(response => {
+                }).then(response => {
                     this.$router.push(
                         {name: 'ArticleList'}
                     );
