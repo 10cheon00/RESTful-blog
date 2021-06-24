@@ -35,13 +35,8 @@
             }
         },
         mounted(){
-            const token = localStorage.getItem('jwt_access');
             axios.get(
-                this.ArticleRetrieveUpdateDestroyUrl(this.articleId),{
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+                this.ArticleRetrieveUpdateDeleteUrl(this.articleId),
             ).then(response => {
                 this.article = response.data;
             }).catch(error => {
@@ -50,14 +45,19 @@
         },
         methods: {
             DeleteArticle(){
+                const token = localStorage.getItem('bearer_token_access')
                 axios.delete(
-                    this.ArticleRetrieveUpdateDestroyUrl(this.articleId)
+                    this.ArticleRetrieveUpdateDeleteUrl(this.articleId),{
+                        headers: {
+                            Authorization: `bBearer ${token}`
+                        }
+                    }
                 ).then(response => {
                     this.$router.push(
                         {name: 'ArticleList'}
                     );
                 }).catch(error => {
-                    console.log(error); 
+                    console.log(error.response); 
                 });
             }
         }

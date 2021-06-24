@@ -3,10 +3,10 @@
     <h1>
         SignUp    
     </h1>
-    <input type="text" v-model="credentials.username">
-    <input type="text" v-model="credentials.nickname">
-    <input type="password" v-model="credentials.password">
-    <input type="password" v-model="credentials.password_confirmation">
+    <input type="text" v-model="profile.username">
+    <input type="text" v-model="profile.nickname">
+    <input type="password" v-model="profile.password">
+    <input type="password" v-model="profile.password_confirmation">
     <p>
         {{ error_msg }}
     </p>
@@ -16,13 +16,16 @@
 </div>
 </template>
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
+    
+    import tokenMixin from '/src/mixins/tokenMixin'
 
     export default{
         name: 'SignUp',
+        mixins: [tokenMixin],
         data(){
             return{
-                credentials:{
+                profile:{
                     username: null,
                     nickname: null,
                     password: null,
@@ -37,23 +40,17 @@
                     this.error_msg = '비밀번호가 같지 않습니다!'
                     return
                 }
-                    
                 axios.post(
-                    'http://rest-blog.run.goorm.io/api/profiles/signup/', 
-                    this.credentials
+                    this.profileSignUpUrl, 
+                    this.profile
                 ).then(response => {
-                    if(response.data.error){
-                        console.log(response.data.error)
-                    }
-                    else{
-                        this.$router.push({name: 'SignIn'})
-                    }
+                    this.$router.push({name: 'SignIn'})
                 }).catch(error => {
-                    console.log("failed")
+                    console.log(error.response)
                 })
             },
             IsPasswordEquals(){
-                return this.credentials.password == this.credentials.password_confirmation
+                return this.profile.password == this.profile.password_confirmation
             }
         }
     }

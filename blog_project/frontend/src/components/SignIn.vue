@@ -3,38 +3,54 @@
     <h1>
         Sign In
     </h1>
-    <input type="text" v-model="credentials.username">
-    <input type="password" v-model="credentials.password">
+    <div>
+        <input type="text" v-model="profile.username">
+        <input type="password" v-model="profile.password">
+    </div>
     <button v-on:click="SignIn">
         Sign In
     </button>
+    <div>
+        {{ error_msg }}
+    </div>
 </div>
 </template>
 
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
+
+    import tokenMixin from '/src/mixins/tokenMixin';
+
     export default{
+        mixins: [tokenMixin],
         data(){
             return {
-                credentials: {
+                profile: {
                     username: null,
                     password: null
-                }
+                },
+                error_msg: ''
             }
+        },
+        mounted(){
+            //TODO check application has token.
         },
         methods:{
             SignIn(){
-                axios.post(
-                    'http://rest-blog.run.goorm.io/api/profiles/', 
-                    this.credentials
-                ).then(response => {
-                    localStorage.setItem('jwt_access', response.data.access)
-                    localStorage.setItem('jwt_refresh', response.data.refresh)
-                    this.$router.push({name: 'ArticleList'})
-                }).catch(error => {
-                    console.log(error)
-                })
+                this.ObtainToken(
+                    this.profile,
+                    (response) => {
+                        this.SaveTokens(response.data)
+                        this.$router.push({name: 'ArticleList'})
+                    },
+                    (error) => {
+                        if(error.response.status == 401){
+                            this.error_msg = '로그인 정보가 맞지 않습니다.'
+                        }
+                    }
+                )
             }
+            
         }
     }
 
