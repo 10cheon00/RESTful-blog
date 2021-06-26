@@ -22,6 +22,7 @@
     import tokenMixin from '/src/mixins/tokenMixin';
 
     export default{
+        name: 'AppSignIn',
         mixins: [tokenMixin],
         data(){
             return {

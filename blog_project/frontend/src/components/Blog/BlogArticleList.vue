@@ -1,7 +1,7 @@
 <template>
 <div>
     <div id="blog-create-article">
-        <router-link :to="{name: 'CreateArticle'}">
+        <router-link :to="{name: 'BlogCreateArticle'}">
             Create Article
         </router-link>
     </div>
@@ -9,7 +9,7 @@
     <div id="blog-article-list">
         <div v-for="article in articleList" :key="article.id">
             <router-link :to="{
-                              name: 'ArticleDetail',
+                              name: 'BlogArticleDetail',
                               params: {articleId: `${article.id}`}}
                               ">
                 {{ article.title }}

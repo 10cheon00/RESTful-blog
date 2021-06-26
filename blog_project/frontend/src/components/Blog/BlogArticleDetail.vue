@@ -1,6 +1,6 @@
 <template>
     <div v-if:="isLoaded" id="blog-article-detail">
-        <router-link :to="{name: 'ArticleList'}">Back to Home</router-link>
+        <router-link :to="{name: 'BlogArticleList'}">Back to Home</router-link>
         <hr>
         {{ article.title }} | {{ article.create_at }}
         <br>
@@ -57,7 +57,7 @@
                     }
                 }).then(response => {
                     this.$router.push(
-                        {name: 'ArticleList'}
+                        {name: 'BlogArticleList'}
                     );
                 }).catch(error => {
                     console.log(error.response); 

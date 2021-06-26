@@ -1,19 +1,23 @@
 <template>
-    <div id="blog">
-        <app-nav/>
-        <h3>
-            My blog!
-        </h3>
-        <hr>
-        <router-view id="app"/>
+    <div>
+        <app-navigation></app-navigation>
+        <div id="blog">
+            <h3>
+                My blog!
+            </h3>
+            <hr>
+            <router-view id="router-view"/>
+        </div>
     </div>
 </template>
 
 <script>
-import AppNav from '/src/components/AppNav'
+import AppNavigation from '/src/components/App/AppNavigation'
+
 export default{
+    name: 'App',
     components: {
-        AppNav
+        AppNavigation
     },
 }
 </script>
