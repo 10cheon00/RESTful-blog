@@ -21,7 +21,7 @@
     import tokenMixin from '/src/mixins/tokenMixin'
 
     export default{
-        name: 'SignUp',
+        name: 'AppSignUp',
         mixins: [tokenMixin],
         data(){
             return{
