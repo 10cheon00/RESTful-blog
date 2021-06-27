@@ -19,11 +19,11 @@
 <script>
     import axios from 'axios'
 
-    import tokenMixin from '/src/mixins/tokenMixin';
+    import { ProfileRequestApi } from '/src/utils/ApiRequest'
+    import TokenManager from '/src/utils/TokenManager'
 
     export default{
-        name: 'AppSignIn',
-        mixins: [tokenMixin],
+        name: 'SignIn',
         data(){
             return {
                 profile: {
@@ -38,15 +38,18 @@
         },
         methods:{
             SignIn(){
-                this.ObtainToken(
-                    this.profile,
-                    (response) => {
-                        this.SaveTokens(response.data)
+                let profileRequestApi = new ProfileRequestApi()
+                profileRequestApi.SignIn(this.profile).then(
+                    response => {
+                        let tokenMgr = new TokenManager()
+                        tokenMgr.SaveToken(response.data)
                         this.$router.push({name: 'ArticleList'})
-                    },
-                    (error) => {
+                    }
+                ).catch(
+                    error => {
+                        console.log(error)
                         if(error.response.status == 401){
-                            this.error_msg = '로그인 정보가 맞지 않습니다.'
+                            this.error_msg = '일치하는 계정이 없습니다.'
                         }
                     }
                 )

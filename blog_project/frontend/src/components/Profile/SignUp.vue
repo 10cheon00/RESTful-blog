@@ -3,10 +3,12 @@
     <h1>
         SignUp    
     </h1>
-    <input type="text" v-model="profile.username">
-    <input type="text" v-model="profile.nickname">
-    <input type="password" v-model="profile.password">
-    <input type="password" v-model="profile.password_confirmation">
+    <form>
+        <input type="text" v-model="profile.username">
+        <input type="text" v-model="profile.nickname">
+        <input type="password" v-model="profile.password">
+        <input type="password" v-model="profile.password_confirmation">
+    </form>
     <p>
         {{ error_msg }}
     </p>
@@ -16,13 +18,10 @@
 </div>
 </template>
 <script>
-    import axios from 'axios'
-    
-    import tokenMixin from '/src/mixins/tokenMixin'
+    import { ProfileRequestApi } from '/src/utils/ApiRequest'
 
     export default{
-        name: 'AppSignUp',
-        mixins: [tokenMixin],
+        name: 'SignUp',
         data(){
             return{
                 profile:{
@@ -40,16 +39,16 @@
                     this.error_msg = '비밀번호가 같지 않습니다!'
                     return
                 }
+                else{
+                    this.error_msg = ''
+                }
 
-                axios({
-                    method: 'post',
-                    url: this.profileSignUpUrl,
-                    data: this.profile
-                }).then(response => {
-                    this.$router.push({name: 'SignIn'})
-                }).catch(error => {
-                    console.log(error.response)
-                })
+                let profileRequestApi = new ProfileRequestApi()
+                profileRequestApi.SignUp(this.profile).then(
+                    response => {
+                        this.$router.push({name: 'SignIn'})
+                    }
+                )
             },
             IsPasswordEquals(){
                 return this.profile.password == this.profile.password_confirmation
