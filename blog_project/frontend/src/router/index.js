@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import AppPageNotFound from '/src/components/App/AppPageNotFound';
-import AppSignIn from '/src/components/App/AppSignIn';
-import AppSignUp from '/src/components/App/AppSignUp';
-import BlogArticleList from '/src/components/Blog/BlogArticleList';
-import BlogArticleDetail from '/src/components/Blog/BlogArticleDetail';
-import BlogCreateArticle from '/src/components/Blog/BlogCreateArticle';
+import AppPageNotFound from '/src/components/AppPageNotFound';
+import SignIn from '/src/components/Profile/SignIn';
+import SignUp from '/src/components/Profile/SignUp';
+
+import ArticleList from '/src/components/Blog/ArticleList';
+import ArticleDetail from '/src/components/Blog/ArticleDetail';
+import CreateArticle from '/src/components/Blog/CreateArticle';
 
 
 function CastArticleIdStringToNumber(route){
@@ -17,32 +18,30 @@ function CastArticleIdStringToNumber(route){
 const routes = [
     {
         path: '/signup',
-        name: 'AppSignUp',
-        component: AppSignUp,
-        meta: { unauthorized: true}
+        name: 'SignUp',
+        component: SignUp,
     },
     {
         path: '/signin',
-        name: 'AppSignIn',
-        component: AppSignIn,
-        meta: { unauthorized: true}
+        name: 'SignIn',
+        component: SignIn,
     },
+    
     {
         path: '/article',
-        name: 'BlogArticleList',
-        component: BlogArticleList,
-        meta: { unauthorized: true}
+        name: 'ArticleList',
+        component: ArticleList,
     },
     {
         path: '/article/:articleId(\\d+)',  // regex를 이용해 오직 숫자만 걸러낸다.
-        name: 'BlogArticleDetail',
-        props: CastArticleIdStringToNumber,  // 이 옵션으로 선택한 article의 id가 Blog의 props에 저장된다.
-        component: BlogArticleDetail,
+        name: 'ArticleDetail',
+        props: CastArticleIdStringToNumber, 
+        component: ArticleDetail,
     },
     {
         path: '/article/create',
-        name: 'BlogCreateArticle',
-        component: BlogCreateArticle,
+        name: 'CreateArticle',
+        component: CreateArticle,
     },
 
     {
@@ -51,7 +50,7 @@ const routes = [
     },
     {
         path: '/NotFound',
-        name: 'AppNotFound',
+        name: 'NotFound',
         component: AppPageNotFound
     },
 ];

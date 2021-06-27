@@ -16,12 +16,10 @@
 </template>
 <script>
 import axios from 'axios';
-    
-import articleUrlMixin from '/src/mixins/articleUrlMixin';
-import tokenMixin from '/src/mixins/tokenMixin';
+
+import { ArticleRequestApi } from '/src/utils/ApiRequest';
 
 export default{
-    mixins: [articleUrlMixin, tokenMixin],
     data(){
         return{
             article: {
@@ -37,23 +35,12 @@ export default{
                 this.ShowErrorMsg()
                 return
             }
-            // 생성하려고 하면 인증이 안된다고 뜬다.. 왜일까
-            const token = this.GetAccessTokenFromLocalStorage()
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-            }
-            axios({
-                method: 'post', //you can set what request you want to be
-                url: this.ArticleAPIUrl(),
-                data: this.article,
-                headers: {
-                    Authorization: 'Bearer ' + token
+            let articleRequestApi = new ArticleRequestApi()
+            articleRequestApi.Create(this.article).then(
+                response => {
+                    this.$router.push({name: 'ArticleList'});
                 }
-            }).then(response => {
-                this.$router.push({name: 'ArticleList'});
-            }).catch(
+            ).catch(
                 error => {
                     console.log(error.response)
                 }
