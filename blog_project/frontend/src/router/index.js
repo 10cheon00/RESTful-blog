@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppPageNotFound from '/src/components/AppPageNotFound';
 import SignIn from '/src/components/Profile/SignIn';
 import SignUp from '/src/components/Profile/SignUp';
+import SignOut from '/src/components/Profile/SignOut';
 
 import ArticleList from '/src/components/Blog/ArticleList';
 import ArticleDetail from '/src/components/Blog/ArticleDetail';
@@ -25,6 +26,11 @@ const routes = [
         path: '/signin',
         name: 'SignIn',
         component: SignIn,
+    },
+    {
+        path: '/signout',
+        name: 'SignOut',
+        component: SignOut,
     },
     
     {

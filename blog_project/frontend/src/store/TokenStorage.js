@@ -21,12 +21,19 @@ const TokenStorage = {
                 Authorization: `Bearer ${state.accessTokenKey}`
             }
         },
+        HasTokenKey: (state) => {
+            return state.accessTokenKey.length > 0
+        }
     },
     mutations: {
         SaveTokenData(state, data) {
             state.accessTokenKey = data.access
             state.refreshTokenKey = data.refresh
         },
+        ClearTokenData(state) {
+            state.accessTokenKey = ''
+            state.refreshTokenKey = ''
+        }
     }
 }
 

@@ -3,10 +3,10 @@
     <h1>
         Sign In
     </h1>
-    <div>
-        <input type="text" v-model="profile.username">
-        <input type="password" v-model="profile.password">
-    </div>
+    <form>
+        <input type="text" autocomplete="username" v-model="profile.username">
+        <input type="password" autocomplete="current-password" v-model="profile.password">
+    </form>
     <button v-on:click="SignIn">
         Sign In
     </button>
