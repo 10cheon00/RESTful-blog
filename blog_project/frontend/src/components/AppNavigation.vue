@@ -2,8 +2,13 @@
 <div>
     <div id='nav'>
         <router-link :to="{name: 'ArticleList'}">Blog</router-link>
-        <router-link :to="{name: 'SignUp'}">Sign Up</router-link>
-        <router-link :to="{name: 'SignIn'}">Sign In</router-link>
+        <div v-if="hasNotToken">
+            <router-link :to="{name: 'SignUp'}">Sign Up</router-link>
+            <router-link :to="{name: 'SignIn'}">Sign In</router-link>
+        </div>
+        <div v-else>
+            <router-link :to="{name: 'SignOut'}">Sign Out</router-link>
+        </div>
     </div>
 </div>
 
@@ -12,6 +17,11 @@
 <script>
     export default{
         name: 'AppNavigation',
+        computed: {
+            hasNotToken(){
+                return this.$store.getters['TokenStorage/HasTokenKey'] == false
+            }
+        }
     }
 </script>
 

@@ -4,10 +4,10 @@
         SignUp    
     </h1>
     <form>
-        <input type="text" v-model="profile.username">
-        <input type="text" v-model="profile.nickname">
-        <input type="password" v-model="profile.password">
-        <input type="password" v-model="profile.password_confirmation">
+        <input type="text" autocomplete="username" v-model="profile.username">
+        <input type="text" autocomplete="nickname" v-model="profile.nickname">
+        <input type="password" autocomplete="new-password" v-model="profile.password">
+        <input type="password" autocomplete="new-password" v-model="profile.password_confirmation">
     </form>
     <p>
         {{ error_msg }}

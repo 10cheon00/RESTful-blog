@@ -44,6 +44,7 @@ const ArticleApi = {
             })
         },
         RetrieveArticle({ commit }, articleId){
+            commit('SetArticle', undefined)
             return axios({
                 method: 'get',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId)
