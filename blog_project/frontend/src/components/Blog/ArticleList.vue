@@ -20,33 +20,18 @@
 </div>
 </template>
 <script>
-    import axios from 'axios'
-    
-    import { ArticleRequestApi } from '/src/utils/ApiRequest'
-    
+    import { mapGetters } from 'vuex'
+
     export default {
-        data() {
-            return {
-                articleList: [],
-            }
-        },
-        props:{
-        },
-        components:{
+        computed:{
+            ...mapGetters({
+                articleList: 'GetArticleList',
+            })
         },
         mounted(){
-            let articleRequestApi = new ArticleRequestApi()
-            articleRequestApi.List().then(
-                response => {
-                    this.articleList = response.data;
-                }
-            ).catch(error => {
+            this.$store.dispatch('ListArticle').catch(error => {
                 console.log(error);
             })
         },
-        watch: {
-        },
-        methods: {
-        }
     }
 </script>

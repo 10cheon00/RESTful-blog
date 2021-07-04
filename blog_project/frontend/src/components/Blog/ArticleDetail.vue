@@ -1,6 +1,8 @@
 <template>
     <div v-if:="isLoaded" id="blog-article-detail">
-        <router-link :to="{name: 'ArticleList'}">Back to Home</router-link>
+        <router-link :to="{name: 'ArticleList'}">
+            Back to Home
+        </router-link>
         <hr>
         {{ article.title }} | {{ article.create_at }}
         <br>
@@ -15,51 +17,38 @@
 </template>
 
 <script>
-    import axios from 'axios'
-
-    import { ArticleRequestApi } from '/src/utils/ApiRequest'
-
+    import { mapGetters } from 'vuex'
+    
     export default {
         name: 'blog-article',
         props: {
             articleId: Number,
         },
-        data(){
-            return {
-                article: undefined,
-            }
-        },
         computed: {
             isLoaded(){
                 return this.article != undefined;
-            }
+            },
+            ...mapGetters({
+                article: 'GetArticle'
+            }),
         },
         mounted() {
-            let articleRequestApi = new ArticleRequestApi()
-            articleRequestApi.Retrieve(this.articleId).then(
-                response => {
-                    this.article = response.data
-                }
-            ).catch(
-                error => {
-                    console.log(error);
-                }
-            )
+            this.GetArticleDetail(this.articleId)
         },
         methods: {
+            GetArticleDetail(articleId) {
+                this.$store.dispatch(
+                    'RetrieveArticle', this.articleId
+                ).catch(error => {
+                    console.log(error);
+                })
+            },
             DeleteArticle(){
-                let articleRequestApi = new ArticleRequestApi()
-                articleRequestApi.Delete(this.articleId).then(
-                    response => {
-                        this.$router.push(
-                            {name: 'ArticleList'}
-                        );
-                    }
-                ).catch(
-                    error => {
-                        console.log(error.response); 
-                    }
-                )
+                this.$store.dispatch(
+                    'DestroyArticle', this.articleId
+                ).then( response => {
+                    this.$router.push({name: 'ArticleList'})
+                })
             }
         }
     }
