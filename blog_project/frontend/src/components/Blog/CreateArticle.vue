@@ -15,45 +15,40 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
-
-import { ArticleRequestApi } from '/src/utils/ApiRequest';
-
-export default{
-    data(){
-        return{
-            article: {
-                title: "",
-                content: "",
-            },
-            errorMsg: "",
-        }
-    },
-    methods: {
-        createArticle(){
-            if(this.IsEmptyArticle()){
-                this.ShowErrorMsg()
-                return
+    
+    export default{
+        data(){
+            return{
+                article: {
+                    title: "",
+                    content: "",
+                },
+                errorMsg: "",
             }
-            let articleRequestApi = new ArticleRequestApi()
-            articleRequestApi.Create(this.article).then(
-                response => {
+        },
+        methods: {
+
+            createArticle(){
+                if(this.IsEmptyArticle()){
+                    this.ShowErrorMsg()
+                    return
+                }
+                this.$store.dispatch(
+                    'CreateArticle', this.article
+                ).then( response => {
                     this.$router.push({name: 'ArticleList'});
-                }
-            ).catch(
-                error => {
+                }).catch( error => {
                     console.log(error.response)
-                }
-            )
-        },
-        IsEmptyArticle(){
-            return this.article.title.length + this.article.content.length == 0
-        },
-        ShowErrorMsg(){
-            this.errorMsg = "내용을 입력해주세요!"
+                })
+            },
+            IsEmptyArticle(){
+                return this.article.title.length + this.article.content.length == 0
+            },
+            ShowErrorMsg(){
+                this.errorMsg = "내용을 입력해주세요!"
+            }
         }
     }
-}
 </script>
 <style>
     input{

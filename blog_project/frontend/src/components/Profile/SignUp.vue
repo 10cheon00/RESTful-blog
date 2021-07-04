@@ -18,8 +18,6 @@
 </div>
 </template>
 <script>
-    import { ProfileRequestApi } from '/src/utils/ApiRequest'
-
     export default{
         name: 'SignUp',
         data(){
@@ -33,6 +31,8 @@
                 error_msg: '',
             }
         },
+        computed:{
+        },
         methods: {
             SignUp(){
                 if(this.IsPasswordEquals() == false){
@@ -43,12 +43,11 @@
                     this.error_msg = ''
                 }
 
-                let profileRequestApi = new ProfileRequestApi()
-                profileRequestApi.SignUp(this.profile).then(
-                    response => {
-                        this.$router.push({name: 'SignIn'})
-                    }
-                )
+                this.$store.dispatch(
+                    'SignUp', this.profile
+                ).then( response => {
+                    this.$router.push({name: 'ArticleList'})
+                })
             },
             IsPasswordEquals(){
                 return this.profile.password == this.profile.password_confirmation

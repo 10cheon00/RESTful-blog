@@ -17,11 +17,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
-
-    import { ProfileRequestApi } from '/src/utils/ApiRequest'
-    import TokenManager from '/src/utils/TokenManager'
-
     export default{
         name: 'SignIn',
         data(){
@@ -38,14 +33,11 @@
         },
         methods:{
             SignIn(){
-                let profileRequestApi = new ProfileRequestApi()
-                profileRequestApi.SignIn(this.profile).then(
-                    response => {
-                        let tokenMgr = new TokenManager()
-                        tokenMgr.SaveToken(response.data)
-                        this.$router.push({name: 'ArticleList'})
-                    }
-                ).catch(
+                this.$store.dispatch(
+                    'SignIn', this.profile
+                ).then(response => {
+                    this.$router.push({name: 'ArticleList'})
+                }).catch(
                     error => {
                         console.log(error)
                         if(error.response.status == 401){
@@ -53,8 +45,7 @@
                         }
                     }
                 )
-            }
-            
+            },
         }
     }
 
