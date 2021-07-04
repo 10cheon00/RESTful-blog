@@ -1,3 +1,10 @@
+import createPersistedState from 'vuex-persistedstate'
+
+const persistedState = createPersistedState({
+    paths: [
+        'TokenStorage',
+    ]
+})
 
 const TokenStorage = {
     namespaced: true,
@@ -23,4 +30,4 @@ const TokenStorage = {
     }
 }
 
-export default TokenStorage
+export { TokenStorage, persistedState }
