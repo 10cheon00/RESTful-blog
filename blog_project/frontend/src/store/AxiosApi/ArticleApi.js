@@ -8,7 +8,7 @@ const articleUrl = {
         return articleApiUrl
     },
     GetArticleRetrieveUpdateDestroyUrl: (articleId) => {
-        return articleApiUrl + articleId
+        return articleApiUrl + articleId + '/'
     },
 }
 
@@ -43,6 +43,14 @@ const ArticleApi = {
                 commit('SetArticleList', response.data) 
             })
         },
+        CreateArticle({ commit, rootGetters }, article){
+            return axios({
+                method: 'post',
+                url: articleUrl.GetArticleListCreateUrl(),
+                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
+                data: article
+            })
+        },
         RetrieveArticle({ commit }, articleId){
             commit('SetArticle', undefined)
             return axios({
@@ -52,12 +60,12 @@ const ArticleApi = {
                 commit('SetArticle', response.data)
             })
         },
-        CreateArticle({ commit, rootGetters }, article){
+        UpdateArticle({ commit, rootGetters }, data){
             return axios({
-                method: 'post',
-                url: articleUrl.GetArticleListCreateUrl(),
+                method: 'put',
+                url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
-                data: article
+                data: data.article
             })
         },
         DestroyArticle({ commit, rootGetters }, articleId){

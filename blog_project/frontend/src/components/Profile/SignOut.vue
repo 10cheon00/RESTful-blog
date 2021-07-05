@@ -8,7 +8,7 @@ export default{
     name: 'Sign Out',
     mounted(){
         this.$store.commit('TokenStorage/ClearTokenData')
-        this.$router.push({name: 'ArticleList'})
+        this.$router.push({name: 'ListArticle'})
     }
 }
 </script>

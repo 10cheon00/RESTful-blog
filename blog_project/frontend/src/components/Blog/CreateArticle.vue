@@ -6,7 +6,7 @@
         <div>
             <textarea v-model="article.content" placeholder="내용"/>
         </div>
-        <button v-on:click="createArticle">
+        <button v-on:click="CreateArticle">
             저장
         </button>
         <div>
@@ -27,8 +27,7 @@
             }
         },
         methods: {
-
-            createArticle(){
+            CreateArticle(){
                 if(this.IsEmptyArticle()){
                     this.ShowErrorMsg()
                     return
@@ -36,7 +35,8 @@
                 this.$store.dispatch(
                     'CreateArticle', this.article
                 ).then( response => {
-                    this.$router.push({name: 'ArticleList'});
+                    this.$router.push({name: 'ListArticle'});
+                    console.log('d')
                 }).catch( error => {
                     console.log(error.response)
                 })

@@ -46,7 +46,7 @@
                 this.$store.dispatch(
                     'SignUp', this.profile
                 ).then( response => {
-                    this.$router.push({name: 'ArticleList'})
+                    this.$router.push({name: 'ListArticle'})
                 })
             },
             IsPasswordEquals(){

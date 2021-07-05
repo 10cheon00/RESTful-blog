@@ -1,7 +1,7 @@
 <template>
 <div>
     <div id='nav'>
-        <router-link :to="{name: 'ArticleList'}">Blog</router-link>
+        <router-link :to="{name: 'ListArticle'}">Blog</router-link>
         <div v-if="hasNotToken">
             <router-link :to="{name: 'SignUp'}">Sign Up</router-link>
             <router-link :to="{name: 'SignIn'}">Sign In</router-link>
