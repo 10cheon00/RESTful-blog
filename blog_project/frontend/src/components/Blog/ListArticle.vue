@@ -10,7 +10,7 @@
         <div v-for="article in articleList" 
              :key="article.id">
             <router-link :to="{
-                              name: 'ArticleDetail',
+                              name: 'RetrieveArticle',
                               params: {articleId: `${article.id}`}}
                               ">
                 {{ article.title }}

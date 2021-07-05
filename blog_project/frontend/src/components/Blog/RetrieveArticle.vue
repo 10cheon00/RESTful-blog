@@ -1,16 +1,23 @@
 <template>
     <div v-if:="isLoaded" id="blog-article-detail">
-        <router-link :to="{name: 'ArticleList'}">
+        <router-link :to="{name: 'ListArticle'}">
             Back to Home
         </router-link>
         <hr>
-        {{ article.title }} | {{ article.create_at }}
-        <br>
-        {{ article.content }}
+        title : {{ article.title }}
+        <br/>
+        created : {{ article.create_at }}
+        <br/>
+        last_modified : {{ article.last_modified_at }}
+        <br/>
+        content : {{ article.content }}
         <hr>
         <div>
             <button v-on:click="DeleteArticle">
                 Delete!    
+            </button>
+            <button v-on:click="UpdateArticle">
+                Update!    
             </button>
         </div>
     </div>
@@ -33,21 +40,29 @@
             }),
         },
         mounted() {
-            this.GetArticleDetail(this.articleId)
+            this.RetrieveArticle()
         },
         methods: {
-            GetArticleDetail(articleId) {
+            RetrieveArticle() {
                 this.$store.dispatch(
                     'RetrieveArticle', this.articleId
                 ).catch(error => {
                     console.log(error);
                 })
             },
+            UpdateArticle(){
+                this.$router.push({
+                    name: 'UpdateArticle',
+                    params: {
+                        articleId: this.articleId
+                    }
+                })
+            },
             DeleteArticle(){
                 this.$store.dispatch(
                     'DestroyArticle', this.articleId
                 ).then( response => {
-                    this.$router.push({name: 'ArticleList'})
+                    this.$router.push({name: 'ListArticle'});
                 })
             }
         }

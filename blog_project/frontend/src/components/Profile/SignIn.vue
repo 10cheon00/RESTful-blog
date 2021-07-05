@@ -36,7 +36,7 @@
                 this.$store.dispatch(
                     'SignIn', this.profile
                 ).then(response => {
-                    this.$router.push({name: 'ArticleList'})
+                    this.$router.push({name: 'ListArticle'})
                 }).catch(
                     error => {
                         console.log(error)
