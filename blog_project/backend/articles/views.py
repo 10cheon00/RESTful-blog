@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 
 from backend.articles.models import Article
 from backend.articles.serializers import ArticleSerializer
@@ -21,3 +23,17 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class ListCreateArticleAPIView(ListCreateAPIView):
+    queryset = Article.objects.all()
+    lookup_field = 'pk'
+    serializer_class = ArticleSerializer
+
+
+class RetrieveUpdateDestroyArticleAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
