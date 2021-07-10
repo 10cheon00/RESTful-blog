@@ -12,7 +12,7 @@
         <br/>
         content : {{ article.content }}
         <hr>
-        <div>
+        <div v-if="IsTokenVerified">
             <button v-on:click="DeleteArticle">
                 Delete!    
             </button>

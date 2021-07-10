@@ -27,11 +27,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 class ListCreateArticleAPIView(ListCreateAPIView):
     queryset = Article.objects.all()
-    lookup_field = 'pk'
     serializer_class = ArticleSerializer
 
 
 class RetrieveUpdateDestroyArticleAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = 'id'
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
