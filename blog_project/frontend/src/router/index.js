@@ -10,11 +10,8 @@ const routes = [
     ...ProfileRoute,
     {
         path: '/:pathMatch(.*)*',  // 그 외 모든 경로를 이곳에서 처리하게 된다.
-        redirect: '/NotFound'  // NotFound로 넘겨진다.
-    },
-    {
-        path: '/NotFound',
         name: 'NotFound',
+        props: true,
         component: AppPageNotFound
     },
 ];

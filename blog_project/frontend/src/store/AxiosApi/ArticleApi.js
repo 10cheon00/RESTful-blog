@@ -40,7 +40,7 @@ const ArticleApi = {
                 url: articleUrl.GetArticleListCreateUrl()
             }).then( response => {
                 // 같은 모듈 내에 있는 mutation은 따로 경로 지정없이 그냥 호출할 수 있다. 
-                commit('SetArticleList', response.data) 
+                commit('SetArticleList', response.data)
             })
         },
         CreateArticle({ commit, rootGetters }, article){

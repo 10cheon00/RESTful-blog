@@ -36,6 +36,7 @@
                 this.$store.dispatch(
                     'SignIn', this.profile
                 ).then(response => {
+                    this.$store.commit('TokenStorage/TokenVerified')
                     this.$router.push({name: 'ListArticle'})
                 }).catch(
                     error => {

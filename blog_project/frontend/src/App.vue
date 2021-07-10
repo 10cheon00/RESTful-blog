@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import AppNavigation from '/src/components/AppNavigation'
+    import AppNavigation from '/src/components/AppNavigation'
 
-export default{
-    name: 'App',
-    components: {
-        AppNavigation
-    },
-}
+    export default{
+        name: 'App',
+        components: {
+            AppNavigation
+        },
+    }
 </script>
     
 <style>

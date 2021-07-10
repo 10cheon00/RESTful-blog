@@ -36,7 +36,6 @@
                     'CreateArticle', this.article
                 ).then( response => {
                     this.$router.push({name: 'ListArticle'});
-                    console.log('d')
                 }).catch( error => {
                     console.log(error.response)
                 })

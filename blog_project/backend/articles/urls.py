@@ -13,7 +13,7 @@ urlpatterns = [
         name="list_create_article"
     ),
     path(
-        '<int:pk>/',
+        '<int:id>/',
         RetrieveUpdateDestroyArticleAPIView.as_view(),
         name="retrieve_update_destroy_article"
     ),

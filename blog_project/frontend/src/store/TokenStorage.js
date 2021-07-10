@@ -11,9 +11,10 @@ const TokenStorage = {
     state: {
         accessTokenKey: '',
         refreshTokenKey: '',
+        verified: false,
     },
     getters: {
-        GetTokenKey: (state) => {
+        GetAccessTokenKey: (state) => {
             return state.accessTokenKey
         },
         GetHeaderForAuthorization: (state) => {
@@ -23,7 +24,10 @@ const TokenStorage = {
         },
         HasTokenKey: (state) => {
             return state.accessTokenKey.length > 0
-        }
+        },
+        GetDataForVerification: (state) => {
+            return `Bearer ${state.accessTokenKey}`
+        },
     },
     mutations: {
         SaveTokenData(state, data) {
@@ -33,6 +37,12 @@ const TokenStorage = {
         ClearTokenData(state) {
             state.accessTokenKey = ''
             state.refreshTokenKey = ''
+        },
+        TokenVerified(state) {
+            state.verified = true
+        },
+        TokenExpired(state){
+            state.verified = false
         }
     }
 }
