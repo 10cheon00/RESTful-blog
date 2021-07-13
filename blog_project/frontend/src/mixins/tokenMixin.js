@@ -1,10 +1,17 @@
+
+import { mapState } from 'vuex'
+
 export default {
     computed:{
-        IsTokenVerified() {
-            if(this.$store.state.TokenStorage.verified){
-                return true
-            }
-            return false
+        ...mapState([
+            'isVerified'
+        ])
+    },
+    methods:{
+        NavigateToSignInPageIfNotAuthenticated(){
+            this.$store.dispatch('VerifyToken').catch(errorMsg => {
+                this.$router.push({name: 'SignIn'})
+            })
         },
     }
 }

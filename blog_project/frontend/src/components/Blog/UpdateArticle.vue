@@ -28,6 +28,9 @@
                 article: 'GetArticle'
             }),
         },
+        created(){
+            this.NavigateToSignInPageIfNotAuthenticated()
+        },
         mounted(){
             this.RetrieveArticle()
         },
@@ -53,7 +56,7 @@
                 }).catch(error => {
                     console.log(error)
                 })
-            }
+            },
         }
     }
 </script>
