@@ -17,7 +17,7 @@
 <script>
     
     export default{
-        data(){
+        data() {
             return{
                 article: {
                     title: "",
@@ -26,18 +26,22 @@
                 errorMsg: "",
             }
         },
+        created() {
+            this.NavigateToSignInPageIfNotAuthenticated()
+        },
         methods: {
             CreateArticle(){
                 if(this.IsEmptyArticle()){
                     this.ShowErrorMsg()
                     return
                 }
+
                 this.$store.dispatch(
                     'CreateArticle', this.article
                 ).then( response => {
                     this.$router.push({name: 'ListArticle'});
-                }).catch( error => {
-                    console.log(error.response)
+                }).catch(error => {
+                    this.$router.push({name: 'SignIn'})
                 })
             },
             IsEmptyArticle(){

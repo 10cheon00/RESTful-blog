@@ -43,14 +43,6 @@ const ArticleApi = {
                 commit('SetArticleList', response.data)
             })
         },
-        CreateArticle({ commit, rootGetters }, article){
-            return axios({
-                method: 'post',
-                url: articleUrl.GetArticleListCreateUrl(),
-                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
-                data: article
-            })
-        },
         RetrieveArticle({ commit }, articleId){
             commit('SetArticle', undefined)
             return axios({
@@ -60,7 +52,17 @@ const ArticleApi = {
                 commit('SetArticle', response.data)
             })
         },
+        CreateArticle({ commit, rootGetters, dispatch }, article){
+            return axios({
+                method: 'post',
+                url: articleUrl.GetArticleListCreateUrl(),
+                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
+                data: article
+            })
+        },
         UpdateArticle({ commit, rootGetters }, data){
+            // VerifyToken을 쓰지 않은 이유는, 
+            // headers에 가진 토큰이 정상이어야만 요청이 받아들여지기 때문이다.
             return axios({
                 method: 'put',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
@@ -68,7 +70,7 @@ const ArticleApi = {
                 data: data.article
             })
         },
-        DestroyArticle({ commit, rootGetters }, articleId){
+        DestroyArticle({ commit, rootGetters, dispatch }, articleId){
             return axios({
                 method: 'delete',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId),

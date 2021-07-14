@@ -1,14 +1,14 @@
 <template>
 <div>
     <div id='nav'>
+        {{ isVerified }}
         <router-link :to="{name: 'ListArticle'}">Blog</router-link>
-        <div v-if="IsTokenVerified">
-            <router-link :to="{name: 'SignOut'}">Sign Out</router-link>
-        </div>
-        <div v-else>
-            <router-link :to="{name: 'SignUp'}">Sign Up</router-link>
-            <router-link :to="{name: 'SignIn'}">Sign In</router-link>
-        </div>
+        <router-link :to="{name: 'SignOut'}">Sign Out</router-link>
+        <router-link :to="{name: 'SignUp'}">Sign Up</router-link>
+        <router-link :to="{name: 'SignIn'}">Sign In</router-link>
+        <button v-on:click="Clear">
+            Remove Token
+        </button>
     </div>
 </div>
 
@@ -19,6 +19,11 @@
 
     export default{
         name: 'AppNavigation',
+        methods: {
+            Clear(){
+                this.$store.commit('TokenStorage/ClearTokenData')
+            }
+        }
     }
 </script>
 

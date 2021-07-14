@@ -36,24 +36,27 @@ const ProfileApi = {
                 )
             })
         },
-        Verify({ commit, state, rootGetters }){
-            // TODO
-            // Promise에 대해 알아야겠다. action은 Promise를 이용해 작성..
-            // 
-            let accessTokenKey = rootGetters['TokenStorage/GetAccessTokenKey']
-            if(accessTokenKey.length == 0){
-                commit('TokenStorage/TokenExpired')
-            }
-            axios({
-                method: 'post',
-                url: profileUrl.GetVerifyTokenUrl(),
-                data: rootGetters['TokenStorage/GetDataForVerification'],
-            }).then( response => {
-                if(response.status == 200){
-                    commit('TokenStorage/TokenVerified')
+        VerifyToken({ commit,  rootGetters,  }){
+            return new Promise((resolve, reject) => {
+                let accessTokenKey = rootGetters['TokenStorage/GetAccessTokenKey']
+                if(accessTokenKey.length == 0){
+                    commit('TokenStorage/ClearTokenData')
+                    reject()
                 }
-            }).catch( error => {
-                commit('TokenStorage/TokenExpired')
+                else{
+                    axios({
+                        method: 'post',
+                        url: profileUrl.GetVerifyTokenUrl(),
+                        data: rootGetters['TokenStorage/GetDataForVerification'],
+                    }).then( response => {
+                        if(response.status == 200){
+                            resolve()
+                        }
+                    }).catch( error => {
+                        commit('TokenStorage/ClearTokenData')
+                        reject()
+                    })
+                }
             })
         },
     }
