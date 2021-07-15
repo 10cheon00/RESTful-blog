@@ -1,7 +1,6 @@
 <template>
 <div>
     <div id='nav'>
-        {{ isVerified }}
         <router-link :to="{name: 'ListArticle'}">Blog</router-link>
         <router-link :to="{name: 'SignOut'}">Sign Out</router-link>
         <router-link :to="{name: 'SignUp'}">Sign Up</router-link>

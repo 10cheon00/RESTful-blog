@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+import router from '/src/router/index'
 
 const articleApiUrl = 'http://rest-blog.run.goorm.io/api/articles/'
 
@@ -35,7 +36,7 @@ const ArticleApi = {
     },
     actions: {
         ListArticle({ commit }){
-            return axios({
+            axios({
                 method: 'get',
                 url: articleUrl.GetArticleListCreateUrl()
             }).then( response => {
@@ -45,7 +46,7 @@ const ArticleApi = {
         },
         RetrieveArticle({ commit }, articleId){
             commit('SetArticle', undefined)
-            return axios({
+            axios({
                 method: 'get',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId)
             }).then( response => {
@@ -53,28 +54,44 @@ const ArticleApi = {
             })
         },
         CreateArticle({ commit, rootGetters, dispatch }, article){
-            return axios({
+            axios({
                 method: 'post',
                 url: articleUrl.GetArticleListCreateUrl(),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
                 data: article
+            }).then( response => {
+                router.push({name: 'ListArticle'});
+            }).catch( error => {
+                alert('로그인이 필요합니다.')
+                router.push({name: 'SignIn'})
             })
         },
         UpdateArticle({ commit, rootGetters }, data){
-            // VerifyToken을 쓰지 않은 이유는, 
-            // headers에 가진 토큰이 정상이어야만 요청이 받아들여지기 때문이다.
-            return axios({
+            axios({
                 method: 'put',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
                 data: data.article
+            }).then( response => {
+                router.push({
+                    name: 'RetrieveArticle',
+                    params: {articleId: data.id} 
+                });
+            }).catch( error => {
+                alert('로그인이 필요합니다.')
+                router.push({name: 'SignIn'})
             })
         },
         DestroyArticle({ commit, rootGetters, dispatch }, articleId){
-            return axios({
+            axios({
                 method: 'delete',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
+            }).then( response => {
+                router.push({name: 'ListArticle'})
+            }).catch( error => {
+                alert('로그인이 필요합니다.')
+                router.push({name: 'SignIn'})
             })
         },
     }

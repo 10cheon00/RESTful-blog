@@ -49,9 +49,7 @@
             RetrieveArticle() {
                 this.$store.dispatch(
                     'RetrieveArticle', this.articleId
-                ).catch(error => {
-                    console.log(error);
-                })
+                )
             },
             UpdateArticle(){
                 this.$router.push({
@@ -62,22 +60,13 @@
                 })
             },
             DeleteArticle(){
-                this.$store.dispatch(
-                    'DestroyArticle', this.articleId
-                ).then( response => {
-                    this.$router.push({
-                        name: 'ListArticle'
-                    });
-                }).catch(error => {
-                    // TODO 
-                    // headers에 토큰을 넘기기 때문에 인증을 거친 후 삭제 요청을 할 이유는 없다.(중복이므로)
-                    // 그럼 인증이 안된 경우, 서버가 다운된 경우 등등을 어떻게 처리할 것인가?
-                    if(error.response.status == 401){
-                        alert('접근 권한이 없습니다.')
-                        this.$router.push({name: 'SignIn'})
+                this.$router.push({
+                    name: 'DeleteArticle',
+                    params: {
+                        articleId: this.articleId
                     }
-                    console.log(error)
                 })
+                
             }
         }
     }

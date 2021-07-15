@@ -26,8 +26,7 @@
                 errorMsg: "",
             }
         },
-        created() {
-            this.NavigateToSignInPageIfNotAuthenticated()
+        mounted(){
         },
         methods: {
             CreateArticle(){
@@ -38,11 +37,7 @@
 
                 this.$store.dispatch(
                     'CreateArticle', this.article
-                ).then( response => {
-                    this.$router.push({name: 'ListArticle'});
-                }).catch(error => {
-                    this.$router.push({name: 'SignIn'})
-                })
+                )
             },
             IsEmptyArticle(){
                 return this.article.title.length + this.article.content.length == 0

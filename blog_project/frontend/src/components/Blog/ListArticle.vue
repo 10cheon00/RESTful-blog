@@ -29,9 +29,7 @@
             }),
         },
         created(){
-            this.$store.dispatch('ListArticle').catch(error => {
-                console.log(error);
-            })
+            this.$store.dispatch('ListArticle')
         },
     }
 </script>
