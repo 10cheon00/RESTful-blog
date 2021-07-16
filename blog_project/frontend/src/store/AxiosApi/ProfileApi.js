@@ -36,12 +36,12 @@ const ProfileApi = {
                 )
             })
         },
-        VerifyToken({ commit,  rootGetters,  }){
+        VerifyToken({ commit,  rootGetters }){
             return new Promise((resolve, reject) => {
                 let accessTokenKey = rootGetters['TokenStorage/GetAccessTokenKey']
                 if(accessTokenKey.length == 0){
                     commit('TokenStorage/ClearTokenData')
-                    reject()
+                    reject('Does not have token.')
                 }
                 else{
                     axios({
@@ -50,11 +50,14 @@ const ProfileApi = {
                         data: rootGetters['TokenStorage/GetDataForVerification'],
                     }).then( response => {
                         if(response.status == 200){
-                            resolve()
+                            resolve(response)
+                        }
+                        else{
+                            reject(response)
                         }
                     }).catch( error => {
                         commit('TokenStorage/ClearTokenData')
-                        reject()
+                        reject(error.response)
                     })
                 }
             })

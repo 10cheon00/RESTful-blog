@@ -4,10 +4,22 @@
         SignUp    
     </h1>
     <form>
-        <input type="text" autocomplete="username" v-model="profile.username">
-        <input type="text" autocomplete="nickname" v-model="profile.nickname">
-        <input type="password" autocomplete="new-password" v-model="profile.password">
-        <input type="password" autocomplete="new-password" v-model="profile.password_confirmation">
+        <input type="text" 
+               autocomplete="username" 
+               v-model="profile.username" 
+               placeholder="username">
+        <input type="text"
+               autocomplete="nickname"
+               v-model="profile.nickname"
+               placeholder="nickname">
+        <input type="password"
+               autocomplete="new-password"
+               v-model="profile.password"
+               placeholder="password">
+        <input type="password"
+               autocomplete="new-password"
+               v-model="profile.password_confirmation"
+               placeholder="repeat password">
     </form>
     <p>
         {{ error_msg }}

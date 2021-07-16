@@ -28,9 +28,6 @@
                 article: 'GetArticle'
             }),
         },
-        created(){
-            this.NavigateToSignInPageIfNotAuthenticated()
-        },
         mounted(){
             this.RetrieveArticle()
         },
@@ -48,14 +45,7 @@
                         article: this.article,
                         id: this.articleId
                     }
-                ).then( response => {
-                    this.$router.push({
-                        name: 'RetrieveArticle',
-                        params: {articleId: this.articleId} 
-                    });
-                }).catch(error => {
-                    console.log(error)
-                })
+                )
             },
         }
     }
