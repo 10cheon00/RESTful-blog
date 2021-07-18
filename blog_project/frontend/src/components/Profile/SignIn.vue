@@ -39,7 +39,7 @@
                     this.$router.push({name: 'ListArticle'})
                 }).catch(
                     error => {
-                        console.log(error)
+                        console.dir(error)
                         if(error.response.status == 401){
                             this.error_msg = '일치하는 계정이 없습니다.'
                         }

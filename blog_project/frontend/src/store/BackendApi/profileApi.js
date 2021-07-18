@@ -1,31 +1,29 @@
-import axios from 'axios'
+import axiosInstance from '/src/store/BackendApi/axiosWrapper'
 
-
-const profileApiUrl = 'http://rest-blog.run.goorm.io/api/profiles/'
 
 const profileUrl = {
     GetSignUpUrl: () => { 
-        return profileApiUrl + 'signup/'
+        return 'profiles/signup/'
     },
     GetSignInUrl: () => {
-        return profileApiUrl
+        return 'profiles/'
     },
     GetVerifyTokenUrl: () => {
-        return profileApiUrl + 'verify/'
+        return 'profiles/verify/'
     }
 }
 
 const ProfileApi = {
     actions: {
         SignUp({ commit }, profile) {
-            return axios({
+            return axiosInstance({
                 method: 'post',
                 url: profileUrl.GetSignUpUrl(),
                 data: profile
             })
         },
         SignIn({ commit }, profile) {
-            return axios({
+            return axiosInstance({
                 method: 'post',
                 url: profileUrl.GetSignInUrl(),
                 data: profile
@@ -44,7 +42,7 @@ const ProfileApi = {
                     reject('Does not have token.')
                 }
                 else{
-                    axios({
+                    axiosInstance({
                         method: 'post',
                         url: profileUrl.GetVerifyTokenUrl(),
                         data: rootGetters['TokenStorage/GetDataForVerification'],

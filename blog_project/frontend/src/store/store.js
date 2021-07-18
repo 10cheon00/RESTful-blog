@@ -1,12 +1,12 @@
 import { createStore } from 'vuex'
 
-import AxiosApi from '/src/store/AxiosApi'
-import { TokenStorage, persistedState } from '/src/store/TokenStorage'
+import BackendApi from '/src/store/BackendApi/module'
+import { TokenStorage, persistedState } from '/src/store/tokenStorage'
 
 export default createStore({
     plugins: [persistedState],
     modules: {
-        AxiosApi,
+        BackendApi,
         TokenStorage,
     },
 })
