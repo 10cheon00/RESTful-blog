@@ -1,15 +1,13 @@
-import axios from 'axios'
-
+import axiosInstance from '/src/store/BackendApi/axiosWrapper'
 import router from '/src/router/index'
 
-const articleApiUrl = 'http://rest-blog.run.goorm.io/api/articles/'
 
 const articleUrl = {
     GetArticleListCreateUrl: () => { 
-        return articleApiUrl
+        return 'articles/'
     },
     GetArticleRetrieveUpdateDestroyUrl: (articleId) => {
-        return articleApiUrl + articleId + '/'
+        return 'articles/' + articleId + '/'
     },
 }
 
@@ -36,7 +34,7 @@ const ArticleApi = {
     },
     actions: {
         ListArticle({ commit }){
-            axios({
+            axiosInstance({
                 method: 'get',
                 url: articleUrl.GetArticleListCreateUrl()
             }).then( response => {
@@ -46,7 +44,7 @@ const ArticleApi = {
         },
         RetrieveArticle({ commit }, articleId){
             commit('SetArticle', undefined)
-            axios({
+            axiosInstance({
                 method: 'get',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId)
             }).then( response => {
@@ -54,7 +52,7 @@ const ArticleApi = {
             })
         },
         CreateArticle({ commit, rootGetters, dispatch }, article){
-            axios({
+            axiosInstance({
                 method: 'post',
                 url: articleUrl.GetArticleListCreateUrl(),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
@@ -67,7 +65,7 @@ const ArticleApi = {
             })
         },
         UpdateArticle({ commit, rootGetters }, data){
-            axios({
+            axiosInstance({
                 method: 'put',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
@@ -83,7 +81,7 @@ const ArticleApi = {
             })
         },
         DestroyArticle({ commit, rootGetters, dispatch }, articleId){
-            axios({
+            axiosInstance({
                 method: 'delete',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId),
                 headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
