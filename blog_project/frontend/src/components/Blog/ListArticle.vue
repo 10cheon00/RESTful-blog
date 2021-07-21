@@ -23,6 +23,11 @@
     import { mapGetters, mapState } from 'vuex'
 
     export default {
+        data(){
+            return {
+                isVerified: false
+            }
+        },
         computed:{
             ...mapGetters({
                 articleList: 'GetArticleList'
@@ -30,6 +35,7 @@
         },
         created(){
             this.$store.dispatch('ListArticle')
+            this.$store.dispatch('VerifyToken')
         },
     }
 </script>

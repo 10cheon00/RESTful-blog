@@ -1,47 +1,53 @@
 import createPersistedState from 'vuex-persistedstate'
 
+
 const persistedState = createPersistedState({
     paths: [
-        'TokenStorage.accessTokenKey',
-        'TokenStorage.refreshTokenKey',
+        'TokenStorage.accessToken',
+        'TokenStorage.refreshToken',
     ]
 })
 
 const TokenStorage = {
     namespaced: true,
     state: {
-        accessTokenKey: '',
-        refreshTokenKey: '',
-        isVerified: false,
+        accessToken: '',
+        refreshToken: '',
     },
     getters: {
-        GetAccessTokenKey: (state) => {
-            return state.accessTokenKey
+        GetAccessToken: (state) => {
+            return state.accessToken
         },
         GetHeaderForAuthorization: (state) => {
             return {
-                Authorization: `Bearer ${state.accessTokenKey}`
+                Authorization: `Bearer ${state.accessToken}`
             }
         },
-        HasTokenKey: (state) => {
-            return state.accessTokenKey.length > 0
+        HasToken: (state) => {
+            return state.accessToken.length > 0
         },
-        GetDataForVerification: (state) => {
+        GetDataForVerifyAccessToken: (state) => {
             return {
-                token: `${state.accessTokenKey}`
+                token: `${state.accessToken}`
+            }
+        },
+        GetDataForRefreshToken: (state) => {
+            return {
+                refresh: `${state.refreshToken}`
             }
         },
     },
     mutations: {
         SaveTokenData(state, data) {
-            state.accessTokenKey = data.access
-            state.refreshTokenKey = data.refresh
-            state.isVerified = true
+            state.accessToken = data.access
+            state.refreshToken = data.refresh
+        },
+        SaveAccessToken(state, accessToken) {
+            state.accessToken = accessToken
         },
         ClearTokenData(state) {
-            state.accessTokenKey = ''
-            state.refreshTokenKey = ''
-            state.isVerified = false
+            state.accessToken = ''
+            state.refreshToken = ''
         },
     }
 }

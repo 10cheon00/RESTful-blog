@@ -22,23 +22,20 @@ const router = createRouter({
     routes,
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async(to, from, next) => {    
+    //Check route require authentication
     if(to.meta.requiresAuthentication){
         try{
             const response = await store.dispatch('VerifyToken')
             if(response.status == 200){
                 next()
             }
-            else if(response.status >= 400){
-                next(false)
-            }
             else{
-                alert('로그인이 필요합니다.')
-                next('/SignIn')
+                throw response
             }
         }
         catch(e){
-            alert('로그인이 필요합니다.')
+            alert('권한이 없습니다. 로그인 페이지로 이동합니다.')
             next('/SignIn')
         }
     }
