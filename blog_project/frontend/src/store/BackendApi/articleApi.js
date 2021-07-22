@@ -55,7 +55,6 @@ const ArticleApi = {
             axiosInstance({
                 method: 'post',
                 url: articleUrl.GetArticleListCreateUrl(),
-                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
                 data: article
             }).then( response => {
                 router.push({name: 'ListArticle'});
@@ -68,7 +67,6 @@ const ArticleApi = {
             axiosInstance({
                 method: 'put',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
-                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
                 data: data.article
             }).then( response => {
                 router.push({
@@ -84,7 +82,6 @@ const ArticleApi = {
             axiosInstance({
                 method: 'delete',
                 url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId),
-                headers: rootGetters['TokenStorage/GetHeaderForAuthorization'],
             }).then( response => {
                 router.push({name: 'ListArticle'})
             }).catch( error => {

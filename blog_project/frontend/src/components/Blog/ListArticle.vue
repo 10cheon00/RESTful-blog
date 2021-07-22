@@ -35,7 +35,6 @@
         },
         created(){
             this.$store.dispatch('ListArticle')
-            this.$store.dispatch('VerifyToken')
         },
     }
 </script>

@@ -19,6 +19,9 @@ const TokenStorage = {
             return state.accessToken
         },
         GetHeaderForAuthorization: (state) => {
+            if(state.accessToken == ''){
+                return {}
+            }
             return {
                 Authorization: `Bearer ${state.accessToken}`
             }
