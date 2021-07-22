@@ -23,6 +23,11 @@
     import { mapGetters, mapState } from 'vuex'
 
     export default {
+        data(){
+            return {
+                isVerified: false
+            }
+        },
         computed:{
             ...mapGetters({
                 articleList: 'GetArticleList'

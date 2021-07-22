@@ -1,3 +1,4 @@
+import router from '/src/router/index'
 import axiosInstance from '/src/store/BackendApi/axiosWrapper'
 
 
@@ -10,56 +11,64 @@ const profileUrl = {
     },
     GetVerifyTokenUrl: () => {
         return 'profiles/verify/'
+    },
+    GetRefreshTokenUrl: () => {
+        return 'profiles/refresh/'
     }
 }
 
 const ProfileApi = {
     actions: {
         SignUp({ commit }, profile) {
-            return axiosInstance({
+            axiosInstance({
                 method: 'post',
                 url: profileUrl.GetSignUpUrl(),
                 data: profile
+            }).then(response => {
+                router.push({name: 'ListArticle'})
             })
         },
         SignIn({ commit }, profile) {
-            return axiosInstance({
+            axiosInstance({
                 method: 'post',
                 url: profileUrl.GetSignInUrl(),
                 data: profile
             }).then(response => {
-                commit(
-                    'TokenStorage/SaveTokenData', 
-                    response.data
-                )
+                commit('TokenStorage/SaveTokenData', response.data)
+                router.push({name: 'ListArticle'})
+            }).catch(error => {
+                
             })
         },
-        VerifyToken({ commit,  rootGetters }){
+        VerifyToken({ commit, rootGetters }){
             return new Promise((resolve, reject) => {
-                let accessTokenKey = rootGetters['TokenStorage/GetAccessTokenKey']
-                if(accessTokenKey.length == 0){
-                    commit('TokenStorage/ClearTokenData')
-                    reject('Does not have token.')
-                }
-                else{
-                    axiosInstance({
-                        method: 'post',
-                        url: profileUrl.GetVerifyTokenUrl(),
-                        data: rootGetters['TokenStorage/GetDataForVerification'],
-                    }).then( response => {
-                        if(response.status == 200){
-                            resolve(response)
-                        }
-                        else{
-                            reject(response)
-                        }
-                    }).catch( error => {
-                        commit('TokenStorage/ClearTokenData')
-                        reject(error.response)
-                    })
-                }
+                axiosInstance({
+                    method: 'post',
+                    url: profileUrl.GetVerifyTokenUrl(),
+                    data: rootGetters['TokenStorage/GetDataForVerifyAccessToken'],
+                }).then(response => {
+                    console.log('success')
+                    resolve(response)
+                }).catch(error => {
+                    console.log('failed')
+                    reject(error)
+                })
             })
         },
+        RefreshToken({ commit, rootGetters }){
+            return new Promise((resolve, reject) => {
+                axiosInstance({
+                    method: 'post',
+                    url: profileUrl.GetRefreshTokenUrl(),
+                    data: rootGetters['TokenStorage/GetDataForRefreshToken']
+                }).then(response => {
+                    commit('TokenStorage/SaveAccessToken', response.data.access)
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        }
     }
 }
 
