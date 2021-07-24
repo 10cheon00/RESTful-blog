@@ -30,6 +30,9 @@ const TokenStorage = {
             return state.accessToken.length > 0
         },
         GetDataForVerifyAccessToken: (state) => {
+            if(state.accessToken == ''){
+                return {}
+            }
             return {
                 token: `${state.accessToken}`
             }

@@ -45,12 +45,11 @@ const ProfileApi = {
                 axiosInstance({
                     method: 'post',
                     url: profileUrl.GetVerifyTokenUrl(),
-                    data: rootGetters['TokenStorage/GetDataForVerifyAccessToken'],
                 }).then(response => {
-                    console.log('success')
+                    console.log('Verification success')
                     resolve(response)
                 }).catch(error => {
-                    console.log('failed')
+                    console.log('Verification failed')
                     reject(error)
                 })
             })
@@ -60,8 +59,8 @@ const ProfileApi = {
                 axiosInstance({
                     method: 'post',
                     url: profileUrl.GetRefreshTokenUrl(),
-                    data: rootGetters['TokenStorage/GetDataForRefreshToken']
                 }).then(response => {
+                    console.log('Access token refreshed')
                     commit('TokenStorage/SaveAccessToken', response.data.access)
                     resolve(response)
                 }).catch(error => {

@@ -13,7 +13,16 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     config => {
         console.log(config)
-        config.headers.Authorization = `Bearer ${store.state.TokenStorage.accessToken}`
+        config.headers = Object.assign(
+            config.headers,
+            store.getters['TokenStorage/GetHeaderForAuthorization'])
+        
+        if(config.url == 'profiles/verify/'){
+            config.data = store.getters['TokenStorage/GetDataForVerifyAccessToken']
+        }
+        if(config.url == 'profiles/refresh/'){
+            config.data = store.getters['TokenStorage/GetDataForRefreshToken']
+        }
         return config
     },
     error => {
