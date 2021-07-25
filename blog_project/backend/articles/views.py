@@ -1,8 +1,6 @@
-from rest_framework import viewsets
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import BasePermission
 
 from backend.articles.models import Article
 from backend.articles.serializers import ArticleSerializer
@@ -18,21 +16,29 @@ APIView가 저수준이므로 복잡한 구현 시에 사용하라고 한다.
 """
 
 
-class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-
 class ListCreateArticleAPIView(ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
+    def create(self, request, *args, **kwargs):
+        request.data['author'] = request.user.profile.id
+        return super().create(request, *args, **kwargs)
+
+
+class IsOwnerOrReadOnly(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        from rest_framework.permissions import SAFE_METHODS
+
+        if request.method in SAFE_METHODS:
+            return True
+
+        return obj.author.user.id == request.user.id
 
 
 class RetrieveUpdateDestroyArticleAPIView(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
     serializer_class = ArticleSerializer
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Article.objects.all()
 
     def update(self, request, *args, **kwargs):

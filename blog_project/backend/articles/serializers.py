@@ -10,6 +10,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = [
             'id',
+            'author',
             'title',
             'create_at',
             'content',

@@ -7,6 +7,8 @@
         <div id="title">
             <div>
                 {{ article.title }}
+                <br/>
+                {{ article.author }}
             </div>
             <div>
                 created : {{ article.create_at }}
@@ -44,6 +46,7 @@
         },
         mounted() {
             this.RetrieveArticle()
+            console.log(this.$store.state)
         },
         methods: {
             RetrieveArticle() {
@@ -52,6 +55,8 @@
                 )
             },
             UpdateArticle(){
+                // TODO
+                // check that user id equals article author id.
                 this.$router.push({
                     name: 'UpdateArticle',
                     params: {

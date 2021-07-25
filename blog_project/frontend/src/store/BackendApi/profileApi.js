@@ -46,10 +46,8 @@ const ProfileApi = {
                     method: 'post',
                     url: profileUrl.GetVerifyTokenUrl(),
                 }).then(response => {
-                    console.log('Verification success')
                     resolve(response)
                 }).catch(error => {
-                    console.log('Verification failed')
                     reject(error)
                 })
             })
@@ -60,7 +58,6 @@ const ProfileApi = {
                     method: 'post',
                     url: profileUrl.GetRefreshTokenUrl(),
                 }).then(response => {
-                    console.log('Access token refreshed')
                     commit('TokenStorage/SaveAccessToken', response.data.access)
                     resolve(response)
                 }).catch(error => {
