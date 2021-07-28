@@ -1,20 +1,37 @@
 from django.urls import path
 
-from backend.articles.views import ListCreateArticleAPIView
-from backend.articles.views import RetrieveUpdateDestroyArticleAPIView
+from backend.articles.views import ReadOnlyArticleAPIView
+from backend.articles.views import WriteOnlyArticleAPIView
 
 
 app_name = 'articles'
 
 urlpatterns = [
+    # todo
+    # Convert to custom router.
     path(
-        '',
-        ListCreateArticleAPIView.as_view(),
-        name="list_create_article"
+        'list/',
+        ReadOnlyArticleAPIView.as_view(),
+        name="read_only_article"
     ),
     path(
-        '<int:id>/',
-        RetrieveUpdateDestroyArticleAPIView.as_view(),
-        name="retrieve_update_destroy_article"
+        'retrieve/<int:id>/',
+        ReadOnlyArticleAPIView.as_view(),
+        name="read_only_article"
+    ),
+    path(
+        'create/<int:id>/',
+        WriteOnlyArticleAPIView.as_view(),
+        name="write_only_article"
+    ),
+    path(
+        'update/<int:id>/',
+        WriteOnlyArticleAPIView.as_view(),
+        name="write_only_article"
+    ),
+    path(
+        'destroy/<int:id>/',
+        WriteOnlyArticleAPIView.as_view(),
+        name="write_only_article"
     ),
 ]

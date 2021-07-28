@@ -3,12 +3,21 @@ import router from '/src/router/index'
 
 
 const articleUrl = {
-    GetArticleListCreateUrl: () => { 
-        return 'articles/'
+    GetArticleListUrl: () => { 
+        return 'articles/list/'
     },
-    GetArticleRetrieveUpdateDestroyUrl: (articleId) => {
-        return 'articles/' + articleId + '/'
+    GetArticleCreateUrl: () => {
+        return 'articles/create/'
     },
+    GetArticleRetrieveUrl: (articleId) => { 
+        return 'articles/retrieve/' + articleId + '/'
+    },
+    GetArticleUpdateUrl: (articleId) => {
+        return 'articles/update/' + articleId + '/'
+    },
+    GetArticleDestroyUrl: (articleId) => {
+        return 'articles/destroy/' + articleId + '/'
+    }
 }
 
 const ArticleApi = {
@@ -36,7 +45,7 @@ const ArticleApi = {
         ListArticle({ commit }){
             axiosInstance({
                 method: 'get',
-                url: articleUrl.GetArticleListCreateUrl()
+                url: articleUrl.GetArticleListUrl()
             }).then( response => {
                 // 같은 모듈 내에 있는 mutation은 따로 경로 지정없이 그냥 호출할 수 있다. 
                 commit('SetArticleList', response.data)
@@ -46,7 +55,7 @@ const ArticleApi = {
             commit('SetArticle', undefined)
             axiosInstance({
                 method: 'get',
-                url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId)
+                url: articleUrl.GetArticleRetrieveUrl(articleId)
             }).then( response => {
                 commit('SetArticle', response.data)
             })
@@ -54,7 +63,7 @@ const ArticleApi = {
         CreateArticle({ commit, rootGetters, dispatch }, article){
             axiosInstance({
                 method: 'post',
-                url: articleUrl.GetArticleListCreateUrl(),
+                url: articleUrl.GetArticleCreateUrl(),
                 data: article
             }).then( response => {
                 router.push({name: 'ListArticle'});
@@ -66,7 +75,7 @@ const ArticleApi = {
         UpdateArticle({ commit, rootGetters }, data){
             axiosInstance({
                 method: 'put',
-                url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(data.id),
+                url: articleUrl.GetArticleUpdateUrl(data.id),
                 data: data.article
             }).then( response => {
                 router.push({
@@ -74,19 +83,37 @@ const ArticleApi = {
                     params: {articleId: data.id} 
                 });
             }).catch( error => {
-                alert('로그인이 필요합니다.')
-                router.push({name: 'SignIn'})
+                if(error.response.status == 403){
+                    alert('권한이 없습니다.')
+                    router.push({
+                        name: 'RetrieveArticle',
+                        params: {articleId: data.id} 
+                    });
+                }
+                else{
+                    alert('로그인이 필요합니다.')
+                    router.push({name: 'SignIn'})
+                }
             })
         },
         DestroyArticle({ commit, rootGetters, dispatch }, articleId){
             axiosInstance({
                 method: 'delete',
-                url: articleUrl.GetArticleRetrieveUpdateDestroyUrl(articleId),
+                url: articleUrl.GetArticleDestroyUrl(articleId),
             }).then( response => {
                 router.push({name: 'ListArticle'})
             }).catch( error => {
-                alert('로그인이 필요합니다.')
-                router.push({name: 'SignIn'})
+                if(error.response.status == 403){
+                    alert('권한이 없습니다.')
+                    router.push({
+                        name: 'RetrieveArticle',
+                        params: {articleId: articleId} 
+                    });
+                }
+                else{
+                    alert('로그인이 필요합니다.')
+                    router.push({name: 'SignIn'})
+                }
             })
         },
     }

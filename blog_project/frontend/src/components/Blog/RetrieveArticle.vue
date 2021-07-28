@@ -30,7 +30,8 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    
+    import axios from 'axios'
+
     export default {
         name: 'blog-article',
         props: {
@@ -46,7 +47,6 @@
         },
         mounted() {
             this.RetrieveArticle()
-            console.log(this.$store.state)
         },
         methods: {
             RetrieveArticle() {
@@ -55,8 +55,6 @@
                 )
             },
             UpdateArticle(){
-                // TODO
-                // check that user id equals article author id.
                 this.$router.push({
                     name: 'UpdateArticle',
                     params: {
@@ -71,7 +69,6 @@
                         articleId: this.articleId
                     }
                 })
-                
             }
         }
     }

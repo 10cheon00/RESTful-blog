@@ -35,9 +35,7 @@
             RetrieveArticle(){
                 this.$store.dispatch(
                     'RetrieveArticle', this.articleId
-                ).catch( error => {
-                    console.log(error)
-                })
+                )
             },
             UpdateArticle(){
                 this.$store.dispatch(
