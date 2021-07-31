@@ -31,6 +31,9 @@ const ArticleApi = {
         },
         GetArticle(state){
             return state.article
+        },
+        GetArticleAuthor(state){
+            return state.article.author
         }
     },
     mutations: {
@@ -46,18 +49,23 @@ const ArticleApi = {
             axiosInstance({
                 method: 'get',
                 url: articleUrl.GetArticleListUrl()
-            }).then( response => {
+            }).then(response => {
                 // 같은 모듈 내에 있는 mutation은 따로 경로 지정없이 그냥 호출할 수 있다. 
                 commit('SetArticleList', response.data)
             })
         },
         RetrieveArticle({ commit }, articleId){
             commit('SetArticle', undefined)
-            axiosInstance({
-                method: 'get',
-                url: articleUrl.GetArticleRetrieveUrl(articleId)
-            }).then( response => {
-                commit('SetArticle', response.data)
+            return new Promise((resolve, reject) => {
+                axiosInstance({
+                    method: 'get',
+                    url: articleUrl.GetArticleRetrieveUrl(articleId)
+                }).then(response => {
+                    commit('SetArticle', response.data)
+                    resolve(response)
+                }).catch(error => {
+                    reject(error.response)
+                })
             })
         },
         CreateArticle({ commit, rootGetters, dispatch }, article){
@@ -65,9 +73,10 @@ const ArticleApi = {
                 method: 'post',
                 url: articleUrl.GetArticleCreateUrl(),
                 data: article
-            }).then( response => {
+            }).then(response => {
                 router.push({name: 'ListArticle'});
-            }).catch( error => {
+            }).catch(error => {
+                console.dir(error.response)
                 alert('로그인이 필요합니다.')
                 router.push({name: 'SignIn'})
             })
@@ -77,12 +86,12 @@ const ArticleApi = {
                 method: 'put',
                 url: articleUrl.GetArticleUpdateUrl(data.id),
                 data: data.article
-            }).then( response => {
+            }).then(response => {
                 router.push({
                     name: 'RetrieveArticle',
                     params: {articleId: data.id} 
                 });
-            }).catch( error => {
+            }).catch(error => {
                 if(error.response.status == 403){
                     alert('권한이 없습니다.')
                     router.push({
@@ -100,9 +109,9 @@ const ArticleApi = {
             axiosInstance({
                 method: 'delete',
                 url: articleUrl.GetArticleDestroyUrl(articleId),
-            }).then( response => {
+            }).then(response => {
                 router.push({name: 'ListArticle'})
-            }).catch( error => {
+            }).catch(error => {
                 if(error.response.status == 403){
                     alert('권한이 없습니다.')
                     router.push({

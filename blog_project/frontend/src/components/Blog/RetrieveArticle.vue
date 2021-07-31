@@ -19,10 +19,10 @@
         <hr/>
         {{ article.content }}
         <hr>
-        <button v-on:click="DeleteArticle">
+        <button v-on:click="NavigateToDeleteArticle">
             Delete!    
         </button>
-        <button v-on:click="UpdateArticle">
+        <button v-on:click="NavigateToUpdateArticle">
             Update!    
         </button>
     </div>
@@ -54,7 +54,7 @@
                     'RetrieveArticle', this.articleId
                 )
             },
-            UpdateArticle(){
+            NavigateToUpdateArticle(){
                 this.$router.push({
                     name: 'UpdateArticle',
                     params: {
@@ -62,7 +62,7 @@
                     }
                 })
             },
-            DeleteArticle(){
+            NavigateToDeleteArticle(){
                 this.$router.push({
                     name: 'DeleteArticle',
                     params: {

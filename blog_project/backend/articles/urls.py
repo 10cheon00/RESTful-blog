@@ -20,7 +20,7 @@ urlpatterns = [
         name="read_only_article"
     ),
     path(
-        'create/<int:id>/',
+        'create/',
         WriteOnlyArticleAPIView.as_view(),
         name="write_only_article"
     ),

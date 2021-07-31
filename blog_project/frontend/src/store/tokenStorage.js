@@ -13,6 +13,7 @@ const TokenStorage = {
     state: {
         accessToken: '',
         refreshToken: '',
+        userData: null
     },
     getters: {
         GetAccessToken: (state) => {
@@ -50,6 +51,9 @@ const TokenStorage = {
         },
         SaveAccessToken(state, accessToken) {
             state.accessToken = accessToken
+        },
+        SaveUserData(state, userData){
+            state.userData = userData
         },
         ClearTokenData(state) {
             state.accessToken = ''

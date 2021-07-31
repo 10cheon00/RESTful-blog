@@ -12,9 +12,9 @@ from backend.articles.serializers import ArticleSerializer
 
 
 class ReadOnlyArticleAPIView(
-    GenericAPIView,
     ListModelMixin,
-    RetrieveModelMixin
+    RetrieveModelMixin,
+    GenericAPIView
 ):
     lookup_field = 'id'
     queryset = Article.objects.all()
@@ -34,10 +34,10 @@ class IsOwner(BasePermission):
 
 
 class WriteOnlyArticleAPIView(
-    GenericAPIView,
     CreateModelMixin,
     UpdateModelMixin,
-    DestroyModelMixin
+    DestroyModelMixin,
+    GenericAPIView
 ):
     lookup_field = 'id'
     queryset = Article.objects.all()

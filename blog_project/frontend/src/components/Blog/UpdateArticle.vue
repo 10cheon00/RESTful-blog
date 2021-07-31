@@ -28,15 +28,7 @@
                 article: 'GetArticle'
             }),
         },
-        mounted(){
-            this.RetrieveArticle()
-        },
         methods: {
-            RetrieveArticle(){
-                this.$store.dispatch(
-                    'RetrieveArticle', this.articleId
-                )
-            },
             UpdateArticle(){
                 this.$store.dispatch(
                     'UpdateArticle', {
