@@ -43,6 +43,9 @@ const TokenStorage = {
                 refresh: `${state.refreshToken}`
             }
         },
+        GetUserId: (state) => {
+            return state.userData.id
+        }
     },
     mutations: {
         SaveTokenData(state, data) {

@@ -69,6 +69,7 @@ const ArticleApi = {
             })
         },
         CreateArticle({ commit, rootGetters, dispatch }, article){
+            article.author = rootGetters['TokenStorage/GetUserId']
             axiosInstance({
                 method: 'post',
                 url: articleUrl.GetArticleCreateUrl(),
