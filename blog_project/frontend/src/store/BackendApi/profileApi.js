@@ -28,29 +28,28 @@ const ProfileApi = {
                 router.push({name: 'ListArticle'})
             })
         },
-        SignIn({ commit }, profile) {
+        SignIn({ commit, rootState }, profile) {
             axiosInstance({
                 method: 'post',
                 url: profileUrl.GetSignInUrl(),
                 data: profile
             }).then(response => {
                 commit('TokenStorage/SaveTokenData', response.data)
+                commit('TokenStorage/SaveUserData', response.data['profile'])
                 router.push({name: 'ListArticle'})
             }).catch(error => {
-                
+                console.log(error.response)
             })
         },
-        VerifyToken({ commit, rootGetters }){
+        VerifyToken({ commit, rootState }){
             return new Promise((resolve, reject) => {
                 axiosInstance({
                     method: 'post',
                     url: profileUrl.GetVerifyTokenUrl(),
-                    data: rootGetters['TokenStorage/GetDataForVerifyAccessToken'],
                 }).then(response => {
-                    console.log('success')
+                    commit('TokenStorage/SaveUserData', response.data['profile'])
                     resolve(response)
                 }).catch(error => {
-                    console.log('failed')
                     reject(error)
                 })
             })
@@ -60,7 +59,6 @@ const ProfileApi = {
                 axiosInstance({
                     method: 'post',
                     url: profileUrl.GetRefreshTokenUrl(),
-                    data: rootGetters['TokenStorage/GetDataForRefreshToken']
                 }).then(response => {
                     commit('TokenStorage/SaveAccessToken', response.data.access)
                     resolve(response)

@@ -26,7 +26,18 @@
                 article: 'GetArticle'
             }),
         },
-        mounted(){
+        created(){
+            this.$store.dispatch('RetrieveArticle', this.articleId).then(response => {
+                const authorId = this.$store.getters.GetArticleAuthor
+                const userId = this.$store.state.TokenStorage.userData.id
+                if(authorId != userId){
+                    alert('권한이 없습니다.')
+                    this.$router.push({
+                        name: 'RetrieveArticle',
+                        params: {articleId: this.articleId}
+                    })                    
+                }
+            })
         },
         methods: {
             DeleteArticle(){

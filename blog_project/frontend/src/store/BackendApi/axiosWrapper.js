@@ -12,8 +12,16 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     config => {
-        console.log(config)
-        config.headers.Authorization = `Bearer ${store.state.TokenStorage.accessToken}`
+        config.headers = Object.assign(
+            config.headers,
+            store.getters['TokenStorage/GetHeaderForAuthorization'])
+        
+        if(config.url == 'profiles/verify/'){
+            config.data = store.getters['TokenStorage/GetDataForVerifyAccessToken']
+        }
+        if(config.url == 'profiles/refresh/'){
+            config.data = store.getters['TokenStorage/GetDataForRefreshToken']
+        }
         return config
     },
     error => {
@@ -24,10 +32,8 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
     undefined,
     async error => {
-        console.log('accessToken is invalid')
         if(error.response.status == 401 &&
            error.config.isRetried === undefined){
-            console.log('need refresing')
             error.config.isRetried = true
             
             await store.dispatch('RefreshToken')

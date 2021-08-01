@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 
 from backend.profiles.models import Profile
 

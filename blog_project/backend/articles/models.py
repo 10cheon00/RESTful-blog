@@ -5,6 +5,8 @@ from backend.profiles.models import Profile
 
 
 class Article(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
     title = models.CharField(max_length=100, default='')
 
     content = models.TextField(max_length=100000, default='')

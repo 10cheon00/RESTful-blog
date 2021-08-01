@@ -7,6 +7,8 @@
         <div id="title">
             <div>
                 {{ article.title }}
+                <br/>
+                {{ article.author }}
             </div>
             <div>
                 created : {{ article.create_at }}
@@ -17,10 +19,10 @@
         <hr/>
         {{ article.content }}
         <hr>
-        <button v-on:click="DeleteArticle">
+        <button v-on:click="NavigateToDeleteArticle">
             Delete!    
         </button>
-        <button v-on:click="UpdateArticle">
+        <button v-on:click="NavigateToUpdateArticle">
             Update!    
         </button>
     </div>
@@ -28,7 +30,8 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    
+    import axios from 'axios'
+
     export default {
         name: 'blog-article',
         props: {
@@ -51,7 +54,7 @@
                     'RetrieveArticle', this.articleId
                 )
             },
-            UpdateArticle(){
+            NavigateToUpdateArticle(){
                 this.$router.push({
                     name: 'UpdateArticle',
                     params: {
@@ -59,14 +62,13 @@
                     }
                 })
             },
-            DeleteArticle(){
+            NavigateToDeleteArticle(){
                 this.$router.push({
                     name: 'DeleteArticle',
                     params: {
                         articleId: this.articleId
                     }
                 })
-                
             }
         }
     }

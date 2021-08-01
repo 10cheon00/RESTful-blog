@@ -13,6 +13,7 @@ const TokenStorage = {
     state: {
         accessToken: '',
         refreshToken: '',
+        userData: null
     },
     getters: {
         GetAccessToken: (state) => {
@@ -30,6 +31,9 @@ const TokenStorage = {
             return state.accessToken.length > 0
         },
         GetDataForVerifyAccessToken: (state) => {
+            if(state.accessToken == ''){
+                return {}
+            }
             return {
                 token: `${state.accessToken}`
             }
@@ -39,6 +43,9 @@ const TokenStorage = {
                 refresh: `${state.refreshToken}`
             }
         },
+        GetUserId: (state) => {
+            return state.userData.id
+        }
     },
     mutations: {
         SaveTokenData(state, data) {
@@ -47,6 +54,9 @@ const TokenStorage = {
         },
         SaveAccessToken(state, accessToken) {
             state.accessToken = accessToken
+        },
+        SaveUserData(state, userData){
+            state.userData = userData
         },
         ClearTokenData(state) {
             state.accessToken = ''

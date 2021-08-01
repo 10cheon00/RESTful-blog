@@ -1,39 +1,54 @@
-from rest_framework import viewsets
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.generics import ListCreateAPIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import RetrieveModelMixin
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.mixins import DestroyModelMixin
+from rest_framework.permissions import AllowAny
+from rest_framework.permissions import BasePermission
 
 from backend.articles.models import Article
 from backend.articles.serializers import ArticleSerializer
 
 
-"""
-APIView vs ViewSet
-
-list, create, detail, 등의 액션을 구현 = ViewSet.
-get, post, put 등의 http 메소드를 구현 = APIView.
-ViewSet은 간단한 구현 시에 사용하라고 한다.
-APIView가 저수준이므로 복잡한 구현 시에 사용하라고 한다.
-"""
-
-
-class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-
-class ListCreateArticleAPIView(ListCreateAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-
-
-class RetrieveUpdateDestroyArticleAPIView(RetrieveUpdateDestroyAPIView):
+class ReadOnlyArticleAPIView(
+    ListModelMixin,
+    RetrieveModelMixin,
+    GenericAPIView
+):
     lookup_field = 'id'
-    serializer_class = ArticleSerializer
     queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    authentication_classes = []
+    permission_calsses = [AllowAny]
 
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        if kwargs.get('id'):
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
+
+
+class IsOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.author.user == request.user
+
+
+class WriteOnlyArticleAPIView(
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericAPIView
+):
+    lookup_field = 'id'
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    permission_classes = [IsOwner]
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
